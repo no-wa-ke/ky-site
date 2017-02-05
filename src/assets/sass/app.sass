@@ -1,0 +1,46 @@
+@import common/variables
+@import common/_mixin
+// @import common/materialize
+// @import common/semantic
+@import components/landing
+@import components/animated-transition
+@import components/app-content
+@import components/app-nav
+@import components/home
+@import components/home.top
+@import components/home.work-list
+@import components/work.view
+
+
+body
+  width: 100%
+  min-height: 100%
+
+.min100
+  width: 100px
+.fixed
+  position: fixed!important
+  top: 0
+.invisible
+  opacity: 0
+.bottom-fixed
+  position: fixed
+  bottom: 0
+
+
+#loading-container
+  position: fixed
+  top: 0
+  left: 0
+  z-index: 100000000
+
+  width: 100%
+  height: 10px
+
+
+.progress-bar
+  transition: all 0.5s ease-in-out
+  width: 0px
+  height: 10px
+  background: yellow
+  border: none

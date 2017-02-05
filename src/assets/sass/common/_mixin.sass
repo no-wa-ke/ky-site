@@ -1,0 +1,204 @@
+@import ./_variables.sass
+/* ==============================util functions===================================
+=background-gradient-top-down($bgcolor, $startcolor, $endcolor, $img: "")
+  background-color: $bgcolor $img
+
+  @if $img == ""
+    background-image: -webkit-gradient(linear, left top, left bottom, from($startcolor), to($endcolor))
+    background-image: -webkit-linear-gradient(top, $startcolor, $endcolor)
+    background-image: -moz-linear-gradient(top, $startcolor, $endcolor)
+    background-image: -ms-linear-gradient(top, $startcolor, $endcolor)
+    background-image: linear-gradient(to bottom, $startcolor, $endcolor)
+  @else
+    background-image: url($img), -webkit-gradient(linear, left top, left bottom, from($startcolor), to($endcolor))
+    background-image: url($img), -webkit-linear-gradient(top, $startcolor, $endcolor)
+    background-image: url($img), -moz-linear-gradient(top, $startcolor, $endcolor)
+    background-image: url($img), -ms-linear-gradient(top, $startcolor, $endcolor)
+    background-image: url($img), linear-gradient(to bottom, $startcolor, $endcolor)
+
+  filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#{$startcolor}',endColorstr='#{$endcolor}',GradientType=0)
+
+/* BACKGROUND SIZE
+=background-size($width: 100%, $height: 100%)
+  -moz-background-size: $width $height
+  -webkit-background-size: $width $height
+  background-size: $width $height
+
+/* BORDER RADIUS
+=border-radius($radius: 2px)
+  -moz-border-radius: $radius
+  -webkit-border-radius: $radius
+  border-radius: $radius
+
+=border-radius-separate($topLeftRadius: 2px, $topRightRadius: 2px, $bottomLeftRadius: 2px, $bottomRightRadius: 2px)
+  -webkit-border-top-left-radius: $topLeftRadius
+  -webkit-border-top-right-radius: $topRightRadius
+  -webkit-border-bottom-right-radius: $bottomRightRadius
+  -webkit-border-bottom-left-radius: $bottomLeftRadius
+  -moz-border-radius-topleft: $topLeftRadius
+  -moz-border-radius-topright: $topRightRadius
+  -moz-border-radius-bottomright: $bottomRightRadius
+  -moz-border-radius-bottomleft: $bottomLeftRadius
+  border-top-left-radius: $topLeftRadius
+  border-top-right-radius: $topRightRadius
+  border-bottom-right-radius: $bottomRightRadius
+  border-bottom-left-radius: $bottomLeftRadius
+
+=placeholder-color($color, $errorcolor)
+  &::-webkit-input-placeholder
+    color: $color
+
+  @if $errorcolor != ""
+    &.error::-webkit-input-placeholder
+      color: $errorcolor
+
+  &:-moz-placeholder
+    color: $color
+    opacity: 1
+
+  @if $errorcolor != ""
+    &.error:-moz-placeholder
+      color: $errorcolor
+      opacity: 1
+
+  &::-moz-placeholder
+    color: $color
+    opacity: 1
+
+  @if $errorcolor != ""
+    &.error::-moz-placeholder
+      color: $errorcolor
+      opacity: 1
+
+  &:-ms-input-placeholder
+    color: $color
+
+  @if $errorcolor != ""
+    &.error:-ms-input-placeholder
+      color: $errorcolor
+
+/* BOX SHADOW
+=box-shadow($x: 2px, $y: 2px, $blur: 5px, $color: rgba(0, 0, 0, 0.4), $inset: "")
+  @if $inset != ""
+    -webkit-box-shadow: $inset $x $y $blur $color
+    -moz-box-shadow: $inset $x $y $blur $color
+    box-shadow: $inset $x $y $blur $color
+  @else
+    -webkit-box-shadow: $x $y $blur $color
+    -moz-box-shadow: $x $y $blur $color
+    box-shadow: $x $y $blur $color
+
+/* DOUBLE BORDERS
+=double-borders($colorOne: #3C3C3C, $colorTwo: #999999, $radius: 0)
+  border: 1px solid $colorOne
+  -webkit-box-shadow: 0 0 0 1px $colorTwo
+  -moz-box-shadow: 0 0 0 1px $colorTwo
+  box-shadow: 0 0 0 1px $colorTwo
+
+  +border-radius($radius)
+
+=anchor($color, $hovercolor, $decoration: "", $hoverdecoration: "")
+  a
+    color: $color
+
+    @if $decoration != ""
+      text-decoration: $decoration
+
+    &:hover, &:active, &:focus, &:visited
+      color: $hovercolor !important
+
+      @if $hoverdecoration != ""
+        text-decoration: $hoverdecoration
+
+=font-face($font-family, $file-path, $font-weight, $font-style)
+  @font-face
+    font-family: $font-family
+    font-weight: $font-weight
+    font-style: $font-style
+    src: url("../fonts/#{$file-path}.eot")
+    src: url("../fonts/#{$file-path}.eot?#iefix") format("embedded-opentype"), url("../fonts/#{$file-path}.woff") format("woff"), url("../fonts/#{$file-path}.ttf") format("truetype"), url("../fonts/#{$file-path}.svg##{$font-family}") format("svg")
+
+/* OPACITY
+=opacity($opacity: 0.5)
+  -ms-filter: "progid:DXImageTransform.Microsoft.Alpha(Opacity=" + $opacity * 100 + ")"
+  -moz-opacity: $opacity
+  -khtml-opacity: $opacity
+  opacity: $opacity
+
+/* OUTLINE RADIUS
+=outline-radius($radius: 2px)
+  -webkit-outline-radius: $radius
+  -moz-outline-radius: $radius
+  outline-radius: $radius
+
+/* RESIZE
+=resize($direction: both)
+  -webkit-resize: $direction
+  -moz-resize: $direction
+  resize: $direction
+
+/* ROTATE
+=rotate($deg: 0, $m11: 0, $m12: 0, $m21: 0, $m22: 0)
+  -moz-transform: rotate($deg + deg)
+  -o-transform: rotate($deg + deg)
+  -webkit-transform: rotate($deg + deg)
+  -ms-transform: rotate($deg + deg)
+  transform: rotate($deg + deg)
+  filter: progid:DXImageTransform.Microsoft.Matrix( M11=#{$m11}, M12=#{$m12}, M21=#{$m21}, M22=#{$m22}, sizingMethod='auto expand')
+  zoom: 1
+
+/* TEXT SHADOW
+=text-shadow($x: 2px, $y: 2px, $blur: 5px, $color: rgba(0, 0, 0, 0.4))
+  text-shadow: $x $y $blur $color
+
+/* TRANSFORM
+=transform($params)
+  -webkit-transform: $params
+  -moz-transform: $params
+  transform: $params
+
+/* TRANSITION
+=transition($what: all, $length: 1s, $easing: ease-in-out)
+  -moz-transition: $what $length $easing
+  -o-transition: $what $length $easing
+  -webkit-transition: $what $length $easing
+  -ms-transition: $what $length $easing
+  transition: $what $length $easing
+
+/* ANIMATION
+=animation($what: all, $length: 1s, $easing: linear, $delay: 1s)
+  -moz-animation: $what $length $easing $delay
+  -o-animation: $what $length $easing $delay
+  -webkit-animation: $what $length $easing $delay
+  -ms-animation: $what $length $easing $delay
+  animation: $what $length $easing $delay
+
+/* TRIPLE BORDERS
+=triple-borders($colorOne: #3C3C3C, $colorTwo: #999999, $colorThree: #000000, $radius: 0)
+  border: 1px solid $colorOne
+
+  +border-radius($radius)
+
+  -webkit-box-shadow: 0 0 0 1px $colorTwo, 0 0 0 2px $colorThree
+  -moz-box-shadow: 0 0 0 1px $colorTwo, 0 0 0 2px $colorThree
+  box-shadow: 0 0 0 1px $colorTwo, 0 0 0 2px $colorThree
+
+%clearfix
+  &:after
+    content: " "
+    display: block
+    clear: both
+
+=color-block
+  :before
+    content: ""
+    display: inline-block
+    width: 15px
+    height: 15px
+    margin-right: 5px
+    background: grey
+
+@mixin tile-pos-up
+  transform: translate3d(0,$tile-transfrom-up,0)
+@mixin tile-pos-down
+  transform: translate3d(0,$tile-transfrom-down,0)

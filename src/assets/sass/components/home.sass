@@ -1,0 +1,66 @@
+@import "../common/_mixin"
+home-view
+
+home-container
+  .top-overlay
+    height: 100vh
+  display: block
+  home-contact,
+  home-work-list
+    position: relative
+    // transform: translate3d(0,100vh,0)
+    // margin-top: 100vh
+  home-contact,
+  home-about
+    // background: #E0EAFC!important
+    // background: -webkit-linear-gradient(to left, rgba(224,234,252,0.8) , rgba(207,222,243,0.9))!important
+    // background: linear-gradient(to left, rgba(224,234,252,0.8) , rgba(207,222,243,0.9))!important
+    background-color: initial!important
+    background: rgba(255,255,255,0.6)!important
+    .dividing.inverted
+      border-bottom: 1px rgba(255,255,255,0.5) solid!important
+    height: 100vh
+    width: 100%
+    display: block
+  home-contact
+    background: rgba(255,255,255,0.6)!important
+    height: 100vh
+
+  home-work-list
+    background: white
+    display: block
+    .ui.container
+      padding-top: 200px
+      padding-bottom: 300px
+    .ui.card
+      .thicker
+        border-top: 1px black solid!important
+        border-bottom: 1px black solid!important
+      img
+        border-radius: 0px!important
+      padding: 0.4rem!important
+      // border: 0.1px #bfbfbf solid!important
+      border: none!important
+      border-radius: 0px!important
+      box-shadow: none!important
+    .content
+      padding-left: 0px!important
+      padding-right: 0px!important
+      .card-text
+        display: inline-block
+      .color-block
+        display: inline-block
+        height: 100%
+        &:before
+          content: ""
+          width: 15px
+          height: 30px
+          margin-right: 5px
+          background: grey
+          display: inline-block
+  home-about
+    z-index: 1
+  home-work-list
+    z-index: 2
+  home-contact
+    z-index: 1

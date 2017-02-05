@@ -1,0 +1,134 @@
+
+
+#landing-view{
+  width: 100%;
+  height: 100%;
+  position: absolute;
+  top: 0;
+  left: 0;
+  pointer-events: none;
+  #model-progress{
+    width: 100%;
+    height: 100%;
+    display: flex;
+    align-items: center;
+    vertical-align: middle;
+    justify-content: center;
+
+
+
+  }
+  .percentage{
+    animation: rotatefull 9s 0s infinite;
+    width: 10rem;
+    height: 10rem;
+  }
+  svg{
+    animation: scaleup .5s 0s 1 ease-in-out forwards;
+    &.complete{
+      animation-name: scaledown;
+    }
+
+  }
+  circle {
+    stroke: #dee0de;
+    
+    fill: none;
+    &:last-of-type {
+      opacity: 0;
+      stroke: #0d1c35;
+      transition: stroke-dashoffset .5s ease-out;
+    }
+    &.complete{
+      animation-name: scaledown;
+    }
+  }
+  #progress-text{
+    text-align: center;
+    color: #0d1c35;
+    position: absolute;
+    font-size: 1rem;
+    transition: opacity 0.3s ease-in-out;
+    /* position: absolute; */
+    /* top: 0; */
+    /* bottom: 0; */
+    left: 0;
+    right: 0;
+    margin: auto;
+    display: flex;
+    justify-content: center;
+    vertical-align: middle;
+    align-content: center;
+    // TODO: fix safari
+    top: 49%;
+
+
+    &.complete{
+      opacity: 0;
+    }
+  }
+
+  @keyframes rotatefull {
+    0% {
+      transform: rotate(0);
+    }
+    20% {
+      transform: rotate(72deg);
+    }
+    40% {
+      transform: rotate(144deg);
+    }
+    60% {
+      transform: rotate(216deg);
+    }
+    80% {
+      transform: rotate(288deg);
+    }
+    99%, 100% {
+      transform: rotate(360deg);
+    }
+  }
+  @keyframes scaleup {
+    0% {
+      transform: scale(.1);
+      opacity: 0;
+    }
+    20% {
+      opacity: 1;
+    }
+    72% {
+      transform: scale(1.1);
+    }
+    84% {
+      transform: scale(.95);
+    }
+    98% {
+      transform: scale(1);
+    }
+    99% {
+      transform: scale(1);
+    }
+    100% {
+      transform: scale(1);
+    }
+  }
+
+  @keyframes scaledown {
+    0% {
+      transform: scale(1);
+      opacity: 1;
+    }
+    15% {
+      transform: scale(1.2);
+    }
+    60% {
+      opacity: 1;
+    }
+    99%, 100% {
+      transform: scale(.1);
+      opacity: 0;
+    }
+
+  }
+
+}

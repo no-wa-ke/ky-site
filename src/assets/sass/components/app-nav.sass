@@ -1,0 +1,22 @@
+app-nav
+  position: absolute
+  width: 100%
+  display: block
+  z-index: 100
+  .ui.secondary.pointing.menu
+    border-bottom: 0px!important
+  .nav-container
+    transition: all 0.4s ease-in-out
+    &.hide
+      opacity: 0
+      transform: translateY(-30px)
+    &.reverse
+      background:#000
+      .item
+        color: white
+        &.active
+          color: white!important
+          border-color: white!important
+    .ui.dropdown
+      .text
+        background: yellow!important

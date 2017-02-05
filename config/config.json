@@ -1,0 +1,62 @@
+{
+  "base": {
+    "src": "src/",
+    "build": "build/",
+    "compile": "compile/",
+    "test": "test/",
+    "vendor": "vendor/",
+    "tmp": ".tmp/"
+  },
+  "path": {
+    "sass": "assets/sass/",
+    "css": "assets/css/",
+    "images": "assets/img/",
+    "model": "assets/model/",
+    "fonts": "assets/fonts/",
+    "js": "app/",
+    "components": "app/components",
+    "static": "static/"
+  },
+  "files": {
+    "index": "index.html",
+    "html": "**/*.html",
+    "pug": "**/*.pug",
+    "tag": "**/*.tag",
+    "pugindex": "index.pug",
+    "sass": "app.{sass,scss}",
+    "sassAll": "**/*.{sass,scss}",
+    "css": "**/*.css",
+    "js": "**/*.js",
+    "fonts": "**",
+    "model": "**",
+    "images": "{,*/,*/*/}*.{png,jpg,jpeg,gif}",
+    "static": "**",
+    "hidden": ".**"
+  },
+  "vendor": {
+    "js": [
+      "semantic/dist/semantic.min.js"
+
+    ],
+    "assets": [
+      "node_modules/font-awesome/fonts/fontawesome-webfont.eot",
+      "node_modules/font-awesome/fonts/fontawesome-webfont.svg",
+      "node_modules/font-awesome/fonts/fontawesome-webfont.eot",
+      "node_modules/font-awesome/fonts/fontawesome-webfont.ttf",
+      "node_modules/font-awesome/fonts/fontawesome-webfont.woff",
+      "node_modules/font-awesome/fonts/fontawesome-webfont.woff2"
+    ]
+  },
+  "env": {
+    "dev": {
+      "api_url": "//api.dev.example.com",
+      "host": "dev.example.com",
+      "path": "/home/webadmin/htdocs/example.com"
+    },
+    "prod": {
+      "api_url": "//api.example.com",
+      "host": "example.com",
+      "path": "/home/webadmin/htdocs/example.com"
+    }
+  }
+}

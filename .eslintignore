@@ -1,0 +1,11 @@
+blueprints/**/files/**
+coverage/**
+node_modules/**
+config/**
+dist/**
+build/**
+compile/**
+src/index.html
+src/app/three/**
+src/app/store/**
+src/app/action/**
