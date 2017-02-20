@@ -1,0 +1,20 @@
+@keyframes rotate
+  0%
+    transform: translate(-50%, -50%) rotate(0deg)
+
+  100%
+    transform: translate(-50%, -50%) rotate(360deg)
+
+.gradient
+  display: block
+  width: 120%
+  height: 200%
+  /* padding-top: 120% */
+
+  position: fixed
+  top: 50%
+  left: 50%
+  transform: translate(-50%, -50%)
+  background: -webkit-radial-gradient(bottom left, darken(#ffd66f, 20%), darken(#a733b4, 20%))!important
+
+  animation: rotate 12s infinite linear

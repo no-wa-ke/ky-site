@@ -1,11 +1,14 @@
 import "./lib/OrbitControls"
-// import PerlinNoise from "../util/perlin"
+import Uniforms from "./uniforms"
+import PerlinNoise from "../util/perlin"
 import RiotControl from "riotcontrol"
 import ActionTypes from "../action/app.actiontypes.js"
 import AppStore from "../store/app.store"
 import AltFetch from "../util/altFetch"
 import Promise from "promise"
 import anime from "animejs"
+import ModelParams from "./param"
+
 
 
 // ローカルのビルドがめんどいのでTHREEはcdnから呼ぶ
@@ -15,13 +18,17 @@ export default class MyModel {
   constructor(opts = {}) {
     return new Promise((resolve, reject) => {
       this.speed = 0;
+      this.totalSize  = 9325173
       this.modelSrc = './assets/model/blender-three-without-scene2.json'
+      this.bgSrc = ""
       this.self = this;
       this.width = window.innerWidth;
       this.height = window.innerHeight;
+      this.updateTime = 0;
       this.loadingProgress = 0;
       this.output = opts.output || document.createElement('div');
       this.danceClip;
+      this.myMesh = new THREE.Mesh();
       this.backgroundColors = {
         white:"rgb(255, 255, 255)",
         yellow:"rgb(255, 255, 0)",
@@ -30,9 +37,7 @@ export default class MyModel {
       this.currentBackgroundColor = {
         color: this.backgroundColors.white
       }
-
-
-
+      this.initParams()
       this.init(resolve);
 
     })
@@ -44,11 +49,12 @@ export default class MyModel {
       { // renderer
         this.renderer = new THREE.WebGLRenderer({
           antialias: true,
-          alpha: true
+          // alpha: true
         });
-        // this.renderer.setClearColor(this.currentBackgroundColor.color); // 背景色
+        this.renderer.setClearColor(this.currentBackgroundColor.color); // 背景色
         this.renderer.setPixelRatio(window.devicePixelRatio || 1);
         this.renderer.setSize(this.width, this.height);
+        this.renderer.sortObjects = false;
         // this.renderer.shadowMap.enabled = true
         // this.renderer.shadowMap.type = THREE.PCFSoftShadowMap;
         this.output.appendChild(this.renderer.domElement);
@@ -61,34 +67,39 @@ export default class MyModel {
         this.myMesh;
         this.myVerts;
         this.myGeometry;
-        this.material;
-
-
+        
         this.makeModel = (geometry,materials)=>{
           return new Promise((resolve,reject)=>{
-
             console.time("+++++++model load+++++++")
             materials.forEach((material) => {
               material.skinning = true;
               material.shading = THREE.FlatShading;
+              material.side =  THREE.DoubleSide;
+
             });
-            this.myMesh = new THREE.SkinnedMesh(geometry, new THREE.MultiMaterial(
-              materials));
-            // mesh.rotation.y = -90 * (Math.PI / 180);
-            // mesh.rotation.y = -90 * (Math.PI / 180);
-            const scale = 50
-            this.myMesh.scale.set(scale, scale, scale);
-            this.myMesh.position.set(0, -50, 0);
-            // this.myMesh.castShadow = true;
-            // this.myMesh.recieveShadow = true;
+            
+            // this.myMesh = new THREE.SkinnedMesh(geometry,new THREE.MultiMaterial(materials))
+            this.myMesh = new THREE.SkinnedMesh(geometry, new THREE.ShaderMaterial({
+              uniforms: self.params.uniforms,
+              vertexShader: document.getElementById('vertex-shader').textContent,
+              fragmentShader: document.getElementById('fragment-shader').textContent,
+              // transparent: true,
+              texture:"https://kidoyoji.xyz/assets/model/originalSurface_Color.jpg",
+              shading: THREE.FlatShading,       
+              side: THREE.DoubleSide,
+              skinning: true       
+              },false));
+            this.myMesh.material.skinning = true;
+
+            const scale = self.params.scale
+            this.myMesh.scale.set(-scale, scale, scale);
+            this.myMesh.position.set(0, -80, 0);
             this.mixer = new THREE.AnimationMixer(this.myMesh);
             this.scene.add(this.myMesh);
-            this.myGeometry = geometry;
-            
-
+  
             if(this.mixer){
               this.danceClip = this.mixer.clipAction(geometry.animations[0], this.myMesh)
-              resolve()
+              return resolve()
               console.timeEnd("+++++++model load+++++++")
 
             }
@@ -96,31 +107,34 @@ export default class MyModel {
         }
         // THREEJSのローダーがクソなのでxhrつかってキャッシュさせてプログレス管理
         const loader = new THREE.JSONLoader();
-
+        
         AltFetch.ajaxload(this.modelSrc,((e)=>{
-          // make dynamic
-          const totalSize = 9325173
+          // TODO: make dynamic
           let stat = {
             loaded: e.loaded,
-            total: totalSize
+            total: this.totalSize
           }
           RiotControl.trigger(ActionTypes.ON_JSON_PROGRESS,stat) // step 1
         }))
+
         .then((e)=>{
           loader.load(
             this.modelSrc,
             (geometry, materials) => {
+              console.table(geometry)
               this.makeModel(geometry,materials)
                 .then(()=>{
                   self.beginAnimation()
                   promise()
                 })
           });
+          
         })
       }
 
       this.createCamera()
       this.createLights()
+      // this.createSphere()
       // this.createFloor()
 
 
@@ -134,7 +148,7 @@ export default class MyModel {
     { // controls
       this.controls = new THREE.OrbitControls(this.camera);
       this.controls.enabled = false;
-      this.controls.autoRotate = true;
+      // this.controls.autoRotate = true;
     }
 
     { //animation
@@ -201,12 +215,7 @@ export default class MyModel {
           this.isPaused = false
         }
       })
-
-
     }
-
-
-
     // メソッドをそのまま渡すと`not function`と怒られるので
     // 無名関数で囲って関数にする点に注意
     this.ww = window.innerWidth;
@@ -218,8 +227,47 @@ export default class MyModel {
         this.ww = window.innerWidth;
       }
     }, false);
+
   }
 
+
+  initParams(){
+
+    const self = this
+    this.params = ModelParams;
+    this.gui = new dat.GUI();
+    const scale = this.gui.add(self.params,"scale",0,100);
+    const radius = this.gui.add(self.params,"radius",0.0,2.0)
+    const noise_a = this.gui.add(self.params,"noise_a",0,1.0)
+    const noise_x = this.gui.add(self.params,"noise_x",-100,100)
+    const noise_y = this.gui.add(self.params,"noise_y",-100,100)
+    const noise_z = this.gui.add(self.params,"noise_z",-100,100)
+    const noise_i = this.gui.add(self.params,"noise_i",-100,100)
+    const _time = this.gui.add(self.params,"time",0,10)
+    scale.onChange((value)=>{
+      this.myMesh.scale.set(-value, value, value);
+    })
+    radius.onChange((value)=>{
+      this.myMesh.material.uniforms.radius.value = value
+    })
+    noise_a.onChange((value)=>{
+      this.myMesh.material.uniforms.noise_a.value = value
+    })
+    noise_x.onChange((value)=>{
+      this.myMesh.material.uniforms.noise_x.value = value
+    })
+    noise_y.onChange((value)=>{
+      this.myMesh.material.uniforms.noise_y.value = value
+    })
+    noise_z.onChange((value)=>{
+      this.myMesh.material.uniforms.noise_z.value = value
+    })
+    noise_i.onChange((value)=>{
+      this.myMesh.material.uniforms.noise_i.value = value
+    })
+
+
+  }
   animateColor(targetColor,_duration=2000){
     anime({
       targets: this.currentBackgroundColor,
@@ -257,7 +305,21 @@ export default class MyModel {
 
 
   }
-
+  createShaderModel(mesh){
+    mesh = new THREE.SkinnedMesh(geometry, new THREE.ShaderMaterial({
+      uniforms: self.params.uniforms,
+      vertexShader: document.getElementById('vertex-shader').textContent,
+      fragmentShader: document.getElementById('fragment-shader').textContent,
+      transparent: true,
+      texture:"./assets/model/originalSurface_Color.jpg",
+      shading: THREE.FlatShading,       
+      side: THREE.DoubleSide,
+      skinning: true       
+    },false));
+    this.myMesh.material.skinning = true;
+    // mesh.rotation.y = -90 * (Math.PI / 180);
+    // mesh.rotation.y = -90 * (Math.PI / 180);
+  }
   createCamera(ortho=false){
 
     let aspect = window.innerWidth / window.innerHeight;
@@ -267,14 +329,36 @@ export default class MyModel {
     if(!ortho){
       myCamera = new THREE.PerspectiveCamera(45, this.width / this.height,
         1, 10000); // fov(視野角),aspect,near,far
-      pos = {x:0,y:0,z:300};
+      pos = {x:50,y:50,z:300};
     }else{
       myCamera = new THREE.OrthographicCamera( - d * aspect, d * aspect, d, - d, -1000, 100000);
       pos = {x:20,y:20,z:20};
     }
     this.camera = myCamera
     this.camera.position.set(pos.x,pos.y,pos.z)
+    // this.camera.lookAt(this.scene.position);
     this.camera.lookAt(this.scene.position);
+
+  }
+
+  createSphere(){
+    // const plane_geometry = new THREE.PlaneBufferGeometry(4, 4, 256, 256);
+    // const _geometry = new THREE.SphereBufferGeometry(1, 256, 256);
+    //       _geometry.addAttribute('position2', plane_geometry.attributes.position);
+    // // const sphere = new THREE.Mesh(_geometry, new THREE.MeshBasicMaterial({shading:THREE.FlatShading,color:0xfff000}))
+    // const sphere = new THREE.Mesh(_geometry, new THREE.ShaderMaterial({
+    //     uniforms: this.uniforms,
+    //     vertexShader: document.getElementById('vertex-shader').textContent,
+    //     fragmentShader: document.getElementById('fragment-shader').textContent,
+    //     transparent: true,
+    //     shading: THREE.FlatShading,
+    //     side: THREE.DoubleSide,
+        
+    //   }));
+    // sphere.scale.set(1,1,1)
+    // sphere.position.set(0, -50, 0);
+    // console.log("ADDED SPHERE",sphere)
+    // this.scene.add( sphere );
 
   }
   beginAnimation(){
@@ -286,18 +370,22 @@ export default class MyModel {
 
   updateMixer(){
     let delta = this.clock.getDelta();
-    if (this.mixer) {
-      // console.log( "updating mixer by " + delta );
-      this.mixer.update(delta);
 
+    this.myMesh.geometry.dynamic = true;
+    this.myMesh.geometry.verticesNeedUpdate = true;
+
+    if(this.params.time){
+      this.params.uniforms.time.value += delta * this.params.time;
+      // this.animateMesh();
+    }
+    if (this.mixer) {
+      this.mixer.update(delta);
     }
   }
 
   render() {
 
     if(this.isPaused) return;
-    // this.turbulance(this.myGeometry.vertices)
-    // this.myGeometry.verticesNeedUpdate = true;
     this.updateMixer();
     this.controls.update();
     this.renderer.render(this.scene, this.camera);
@@ -320,8 +408,25 @@ export default class MyModel {
   return Math.random() * (max - min) + min;
   }
 
-  turbulance(verts){
-    // this.speed = this.speed+ 0.01
+  animateMesh(){
+    let time = (new Date() - this.startTime)/1000;
+    let verts = this.myMesh.geometry.vertices
+    let _verts =  JSON.parse(JSON.stringify(verts))
+    for(var i=0;i<verts.length; i++){
+      let index = 11* i % (verts.length + 1)
+      let amp = 0.01*PerlinNoise.perlin3(i/20 + time,i/30,time);
+          verts[index].z = _verts[index].z + 0.010 * Math.sin( -i + time);
+          verts[index].x = _verts[index].x + 0.010 * Math.sin( -i/2 + time);
+          verts[index].y = _verts[index].y + 0.010 * Math.sin( -i/3 + time);
+          // verts[i].x = verts[i].x * verts[i].z
+          // verts[i].y = verts[i].y * verts[i].z 
+    }
+
+    
+  }
+  turbulance(verts)
+  {
+    this.speed = this.speed+ 0.01
     PerlinNoise.seed(Math.random());
     var OFFSET = 50;
     var time = 0.2;

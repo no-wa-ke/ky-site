@@ -21,9 +21,12 @@ html(lang="ja")
 		title Riot Gulp Pug
 		link(href="https://cdn.jsdelivr.net/semantic-ui/2.2.6/semantic.min.css" rel="stylesheet")
 		link(rel="stylesheet" href="./assets/css/app.css")
+		script(type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/dat-gui/0.6.2/dat.gui.min.js")
 		script(type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/snap.svg/0.4.1/snap.svg.js")
 	body
 		app
+		include vertex.shader.pug
+		include fragment.shader.pug
 		script(type="text/javascript" src="https://cdn.jsdelivr.net/jquery/3.1.1/jquery.min.js")
 		script(type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r83/three.min.js")
 		script(type="text/javascript" src="./app/vendor.js")
