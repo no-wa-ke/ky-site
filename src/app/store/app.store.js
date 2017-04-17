@@ -16,8 +16,7 @@ const appStore = new class AppStore {
 
   updateCurrentPage(page){
     this.data.currentPage = page
-
-    console.log("***STORE CHANGED: updateCurrentPage",page)
+    // console.log("***STORE CHANGED: updateCurrentPage",page)
     RiotControl.trigger(this.ActionTypes.UPDATE_ROUTE, this.data.currentPage)
   }
   updateHomeLoaded(loaded){
@@ -25,12 +24,12 @@ const appStore = new class AppStore {
     RiotControl.trigger(this.ActionTypes.UPDATE_HOME_LOADED, this.data.homeLoaded)
   }
   updateFocus(item) {
-    console.log("***STORE CHANGED: updateFocus",item)
+    // console.log("***STORE CHANGED: updateFocus",item)
     this.data.currentPage = item
     RiotControl.trigger(this.ActionTypes.UPDATE_FOCUS, this.data.currentPage)
   }
   updateFocusScroll(item) {
-    console.log("***STORE CHANGED: updateFocusScroll",item)
+    // console.log("***STORE CHANGED: updateFocusScroll",item)
     this.data.currentPage = item
     RiotControl.trigger(this.ActionTypes.UPDATE_FOCUS_SCROLL, this.data.currentPage)
   }
@@ -50,7 +49,11 @@ appStore.ActionTypes = {
 // 動的
 appStore.data = {
   currentPage: "",
-  homeLoaded: false
+  homeLoaded: false,
+  posts:{
+    top:null,
+    post:null,
+  }
 }
 // 静的
 appStore.config = {
@@ -60,6 +63,29 @@ appStore.config = {
     laptop: false,
     tablet: false,
     sp: false
+  },
+  api:{
+
+    space:"g020kd6rtcdp",
+    token:"8114b5373c2ee370055987d06a52747d139dd1451617f935c7ad10f7065a5ad9",
+
+    contentType:{
+      work:"work"
+    },
+    fields:{
+      top: ["fields.title",
+            "fields.subtitle",
+            "fields.thumbnail",
+            "fields.tags",
+            "fields.releaseDate",
+            "fields.slug"
+            ],
+      post: ["fields.title",
+             "fields.subtitle",
+             "fields.thumbnail"
+            ]
+    }
+
   },
 
   path:{

@@ -9,6 +9,7 @@ landing-view
     import "./animated-transition.tag"
     
     this.on("mount",()=>{
+
       riot.mount("div#animated-transition","animated-transition")
       riot.mount("div#model-progress","model-progress")
 

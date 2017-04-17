@@ -9,13 +9,14 @@ app-content
     import RiotControl from 'riotcontrol'
     import ActionTypes from '../action/app.actiontypes'
     import AppStore from '../store/app.store'
+    import AppAction from '../action/app.action'
     import "./common/login.tag"
     import "./home/home.tag"
     import "./work/work.view.tag"
     import "./common/landing.tag"
     
     
-    
+    // router
     const _mount = (tagName , option = {}) =>
     {
         let tag
@@ -35,15 +36,22 @@ app-content
       
       route("work/*",(name)=>{
         console.log("ROUTER: WORK")
-        opts.state.trigger('route:changed' , name);
-        RiotControl.trigger(ActionTypes.ON_ROUTE_CHANGED,AppStore.config.views.work)
-        _mount(AppStore.config.views.work,name)
+  			
+        AppAction.getPost(name,()=>{
+          opts.state.trigger('route:changed' , name);
+          RiotControl.trigger(ActionTypes.ON_ROUTE_CHANGED,AppStore.config.views.work)          
+          _mount(AppStore.config.views.work,name)
+        })
+        
       })
       //ルーター（イベントリスナーも兼ねてる）
-    	route((action='home') =>
-    {   if(AppStore.data.homeLoaded) return
+    	route((action='home') =>{   
+        
+        if(AppStore.data.homeLoaded) return
+        
         console.log("ROUTER: NORMAL")
-    		opts.state.trigger('route:changed' , action);
+    		
+        opts.state.trigger('route:changed' , action);
         
         RiotControl.trigger(ActionTypes.ON_ROUTE_CHANGED,action)
     	    switch (action) {

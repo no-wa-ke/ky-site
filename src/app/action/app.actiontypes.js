@@ -14,4 +14,8 @@ export default {
   ON_SCROLL_ON_ELEMENT: "app_scroll_on_element",
 
   ON_MODEL_LOADED: "app_model_loaded",
+
+  ON_TOP_CONTENTS_LOADED : "app_top_contents_loaded",
+  ON_POST_CONTENT_LOADED : "app_post_content_loaded",
+  ON_MUSIC_CONTENT_LOADED : "app_music_content_loaded"
 }

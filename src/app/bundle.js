@@ -4,7 +4,7 @@ import route from 'riot-route'
 import AppAction from './action/app.action'
 import './components/app.tag'
 
-import "vconsole"
+// import "vconsole"
 
 
 

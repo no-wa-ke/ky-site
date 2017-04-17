@@ -38,6 +38,7 @@ export default class MyModel {
         color: this.backgroundColors.white
       }
       this.initParams()
+
       this.init(resolve);
 
     })
@@ -54,7 +55,7 @@ export default class MyModel {
         this.renderer.setClearColor(this.currentBackgroundColor.color); // 背景色
         this.renderer.setPixelRatio(window.devicePixelRatio || 1);
         this.renderer.setSize(this.width, this.height);
-        this.renderer.sortObjects = false;
+        // this.renderer.sortObjects = false;
         // this.renderer.shadowMap.enabled = true
         // this.renderer.shadowMap.type = THREE.PCFSoftShadowMap;
         this.output.appendChild(this.renderer.domElement);
@@ -67,7 +68,7 @@ export default class MyModel {
         this.myMesh;
         this.myVerts;
         this.myGeometry;
-        
+
         this.makeModel = (geometry,materials)=>{
           return new Promise((resolve,reject)=>{
             console.time("+++++++model load+++++++")
@@ -77,18 +78,19 @@ export default class MyModel {
               material.side =  THREE.DoubleSide;
 
             });
-            
-            // this.myMesh = new THREE.SkinnedMesh(geometry,new THREE.MultiMaterial(materials))
-            this.myMesh = new THREE.SkinnedMesh(geometry, new THREE.ShaderMaterial({
-              uniforms: self.params.uniforms,
-              vertexShader: document.getElementById('vertex-shader').textContent,
-              fragmentShader: document.getElementById('fragment-shader').textContent,
-              // transparent: true,
-              texture:"https://kidoyoji.xyz/assets/model/originalSurface_Color.jpg",
-              shading: THREE.FlatShading,       
-              side: THREE.DoubleSide,
-              skinning: true       
-              },false));
+
+            this.myMesh = new THREE.SkinnedMesh(geometry,new THREE.MultiMaterial(materials))
+            // this.myMesh = new THREE.SkinnedMesh(geometry, new THREE.ShaderMaterial({
+            //   uniforms: self.params.uniforms,
+            //   vertexShader: document.getElementById('vertex-shader').textContent,
+            //   fragmentShader: document.getElementById('fragment-shader').textContent,
+            //   // transparent: true,
+            //   texture:"https://kidoyoji.xyz/assets/model/originalSurface_Color.jpg",
+            //   shading: THREE.FlatShading,
+            //   side: THREE.DoubleSide,
+            //   skinning: true
+            //   },false));
+
             this.myMesh.material.skinning = true;
 
             const scale = self.params.scale
@@ -96,18 +98,16 @@ export default class MyModel {
             this.myMesh.position.set(0, -80, 0);
             this.mixer = new THREE.AnimationMixer(this.myMesh);
             this.scene.add(this.myMesh);
-  
+
             if(this.mixer){
               this.danceClip = this.mixer.clipAction(geometry.animations[0], this.myMesh)
               return resolve()
-              console.timeEnd("+++++++model load+++++++")
-
             }
           })
         }
         // THREEJSのローダーがクソなのでxhrつかってキャッシュさせてプログレス管理
         const loader = new THREE.JSONLoader();
-        
+
         AltFetch.ajaxload(this.modelSrc,((e)=>{
           // TODO: make dynamic
           let stat = {
@@ -116,19 +116,17 @@ export default class MyModel {
           }
           RiotControl.trigger(ActionTypes.ON_JSON_PROGRESS,stat) // step 1
         }))
-
         .then((e)=>{
           loader.load(
-            this.modelSrc,
-            (geometry, materials) => {
-              console.table(geometry)
-              this.makeModel(geometry,materials)
-                .then(()=>{
-                  self.beginAnimation()
-                  promise()
-                })
-          });
-          
+          this.modelSrc,
+          (geometry, materials) => {
+            this.makeModel(geometry,materials)
+            .then(()=>{
+              self.beginAnimation()
+              promise()
+            })
+        });
+
         })
       }
 
@@ -158,14 +156,13 @@ export default class MyModel {
       this.animate = () => {
         requestAnimationFrame(this.animate);
         this.render();
-
-
       }
       this.stopAnimate = ()=>{
         this.isPaused = true;
       }
 
     }
+
     {// manager
 
       THREE.DefaultLoadingManager.onProgress = function ( item, loaded, total ) {
@@ -174,13 +171,7 @@ export default class MyModel {
           loaded: loaded,
           total: total
         }
-
-        console.log("++++on Progress: stat",stat)
         RiotControl.trigger(ActionTypes.ON_MODEL_PROGRESS,stat)
-
-        if(loaded === total){
-
-        }
       };
     }
     {// dispatcher
@@ -236,6 +227,7 @@ export default class MyModel {
     const self = this
     this.params = ModelParams;
     this.gui = new dat.GUI();
+
     const scale = this.gui.add(self.params,"scale",0,100);
     const radius = this.gui.add(self.params,"radius",0.0,2.0)
     const noise_a = this.gui.add(self.params,"noise_a",0,1.0)
@@ -244,6 +236,7 @@ export default class MyModel {
     const noise_z = this.gui.add(self.params,"noise_z",-100,100)
     const noise_i = this.gui.add(self.params,"noise_i",-100,100)
     const _time = this.gui.add(self.params,"time",0,10)
+
     scale.onChange((value)=>{
       this.myMesh.scale.set(-value, value, value);
     })
@@ -266,8 +259,10 @@ export default class MyModel {
       this.myMesh.material.uniforms.noise_i.value = value
     })
 
+     this.gui.destroy();
 
   }
+
   animateColor(targetColor,_duration=2000){
     anime({
       targets: this.currentBackgroundColor,
@@ -281,6 +276,7 @@ export default class MyModel {
       }
     })
   }
+
   createFloor(){
     this.floor = new THREE.Mesh(new THREE.PlaneBufferGeometry(1000,500), new THREE.ShadowMaterial());
     this.floor.rotation.x = -Math.PI/2;
@@ -305,6 +301,7 @@ export default class MyModel {
 
 
   }
+
   createShaderModel(mesh){
     mesh = new THREE.SkinnedMesh(geometry, new THREE.ShaderMaterial({
       uniforms: self.params.uniforms,
@@ -312,14 +309,15 @@ export default class MyModel {
       fragmentShader: document.getElementById('fragment-shader').textContent,
       transparent: true,
       texture:"./assets/model/originalSurface_Color.jpg",
-      shading: THREE.FlatShading,       
+      shading: THREE.FlatShading,
       side: THREE.DoubleSide,
-      skinning: true       
+      skinning: true
     },false));
     this.myMesh.material.skinning = true;
     // mesh.rotation.y = -90 * (Math.PI / 180);
     // mesh.rotation.y = -90 * (Math.PI / 180);
   }
+
   createCamera(ortho=false){
 
     let aspect = window.innerWidth / window.innerHeight;
@@ -353,7 +351,7 @@ export default class MyModel {
     //     transparent: true,
     //     shading: THREE.FlatShading,
     //     side: THREE.DoubleSide,
-        
+
     //   }));
     // sphere.scale.set(1,1,1)
     // sphere.position.set(0, -50, 0);
@@ -361,6 +359,7 @@ export default class MyModel {
     // this.scene.add( sphere );
 
   }
+
   beginAnimation(){
     this.animate()
     this.danceClip.play()
@@ -404,6 +403,7 @@ export default class MyModel {
     let n = PerlinNoise.perlin3(xx,yy,zz);
     return n;
   }
+
   getRandomArbitary(min, max) {
   return Math.random() * (max - min) + min;
   }
@@ -419,13 +419,13 @@ export default class MyModel {
           verts[index].x = _verts[index].x + 0.010 * Math.sin( -i/2 + time);
           verts[index].y = _verts[index].y + 0.010 * Math.sin( -i/3 + time);
           // verts[i].x = verts[i].x * verts[i].z
-          // verts[i].y = verts[i].y * verts[i].z 
+          // verts[i].y = verts[i].y * verts[i].z
     }
 
-    
+
   }
-  turbulance(verts)
-  {
+
+  turbulance(verts){
     this.speed = this.speed+ 0.01
     PerlinNoise.seed(Math.random());
     var OFFSET = 50;
