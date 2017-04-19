@@ -14,25 +14,32 @@ gulp.task('js:riot',()=>{
   .pipe(gulp.dest(conf.base.tmp));
 })
 */
-"./node_modules/snapsvg/"
+
 gulp.task('js:vendor-build',function(){
   'use strict';
-  return webpack({
-      entry: {
-
-        semantic: './semantic/dist/semantic.js',
+  return gulp.src([conf.base.src + conf.files.vendor_js])
+  .pipe(webpack({
+     devtool: 'inline-source-map',
+    loaders :[{
+      test: /\.js$/,
+      loader: 'babel-loader',
+      exclude: /node_modules/,
+      query: {
+        presets: ['es2015','stage-0','stage-2'],
+        plugins: ['external-helpers-2'],
+      }
+    }],
+      output:{
+        filename: 'vendor.js'
       },
-      output: {
-        filename: 'vendor.js',
-      },
-    })
+    }))
   .pipe(gulp.dest(conf.base.build + conf.path.js));
 })
 
 gulp.task('js:build', function() {
   'use strict';
   return gulp.src
-  ([conf.base.src + conf.files.js,
+  ([conf.base.src + conf.path.js+conf.files.bundle_js,
     // conf.base.src + conf.files.tag
     // conf.base.tmp + conf.files.js
   ])

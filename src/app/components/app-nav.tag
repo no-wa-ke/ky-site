@@ -6,8 +6,7 @@ app-nav
         a(onclick="{triggerNavChange}" class="{active:activeElement == item_list.about}").item About
         a(onclick="{triggerNavChange}" class="{active:activeElement == item_list.work || activeElement == item_list.workView}").item Work
         a(onclick="{triggerNavChange}" class="{active:activeElement == item_list.contact}").item Contact
-        
-        
+
         div(show="{filter_mode}" tabindex="0").ui.dropdown.item.right
           div.text Filter
           i.dropdown.icon
@@ -27,9 +26,7 @@ app-nav
          
     }
   script.
-    import riot from "riot"
     import RiotControl from "riotcontrol"
-    import route from "riot-route"
     import ActionTypes from "../action/app.actiontypes"
     import AppStore from "../store/app.store"
 

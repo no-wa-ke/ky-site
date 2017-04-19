@@ -6,6 +6,6 @@ work-transition
   p#progress-text.percentage-text {percentage}%
   
   script.
-    import riot from 'riot'
+  
   
   

@@ -14,7 +14,7 @@ home-about#about.ui.vertical.stripe.segment.scroll-watch
 			p 現在新作のアルバムレコーディング中
 
 	script.
-		import riot from "riot"
+		
 		
 		
 		

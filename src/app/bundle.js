@@ -1,9 +1,8 @@
 import getOpts from "./components/mixins/get-opts";
-import riot from 'riot'
-import route from 'riot-route'
 import AppAction from './action/app.action'
+import AppStore from './store/app.store'
 import './components/app.tag'
-
+import "./components/common/landing.tag"
 // import "vconsole"
 
 
@@ -11,11 +10,25 @@ import './components/app.tag'
 class App {
 
   constructor() {
-    riot.mixin('getOpts', getOpts);
-    riot.mount('app')
-    AppAction.onresize()
+    this.init();
   }
+  init(){
 
+    const landing = new Promise((resolve)=>{
+
+      riot.mount("div#landing-view","landing-view",{promise:resolve})
+    })
+    const app = new Promise((resolve)=>{
+
+      riot.mount('app',{promise:resolve})
+    })
+
+    landing
+    .then(()=>app)
+    .then(()=>AppAction.onresize())
+
+
+  }
 }
 
 new App();

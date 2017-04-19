@@ -5,14 +5,14 @@ animated-transition
       path(d='{animationType.circle.path}')
   
   script.
-    import riot from "riot"
+    
     import classie from "../../util/classie.js"
     import  "../../util/svgLoader.js"
     import RiotControl from "riotcontrol"
     import ActionTypes from "../../action/app.actiontypes"
     
     window.classie = classie
-    this.animationDuration = 600
+    this.animationDuration = 1000
     this.animationType = {
       circle: {
         data:"M 40 -21.875 C 11.356078 -21.875 -11.875 1.3560784 -11.875 30 C -11.875 58.643922 11.356078 81.875 40 81.875 C 68.643922 81.875 91.875 58.643922 91.875 30 C 91.875 1.3560784 68.643922 -21.875 40 -21.875 Z",
@@ -22,6 +22,7 @@ animated-transition
     
     
     this.on("mount",()=>{
+      console.log('svg transition init')
       const self = this  
       this.loader = new SVGLoader( document.getElementById( 'aniamted-transition-overlay' ), { speedIn : this.animationDuration, easingIn : mina.easeinout ,speedOut :this.animationDuration} );
       this.loader.show()  

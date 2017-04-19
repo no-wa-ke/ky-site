@@ -15,5 +15,5 @@ login
         button.btn.min100.waves-effect.waves-light(type='submit', name='action') Login
         button.btn.min100.waves-effect.waves-light(type='submit', name='action') Sign up
   script.
-    import riot from "riot"
+  
   

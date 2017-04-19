@@ -16,8 +16,6 @@ work-view
         img.ui.fluid.image.centered(src="http://placehold.it/1280x720")
 
   script.
-    import riot from "riot"
-    import route from "riot-route"
     import RiotControl from "riotcontrol"
     import AppStore from "../../store/app.store"
 
@@ -49,7 +47,6 @@ work-view
     
     this.on("unmount",()=>{
       this.normalizeScrollEvents()      
-    
       $("#work-overlay").removeClass("active")
     })
     

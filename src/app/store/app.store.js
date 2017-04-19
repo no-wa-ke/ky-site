@@ -1,4 +1,3 @@
-import riot from 'riot'
 import RiotControl from 'riotcontrol'
 import ActionTypes from '../action/app.actiontypes'
 

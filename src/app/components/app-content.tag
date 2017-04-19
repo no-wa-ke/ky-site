@@ -1,11 +1,9 @@
 app-content
-  div#landing-view
+  
   div#main
   div#work-overlay
   
   script.
-    import riot from 'riot'
-    import route from 'riot-route'
     import RiotControl from 'riotcontrol'
     import ActionTypes from '../action/app.actiontypes'
     import AppStore from '../store/app.store'
@@ -13,19 +11,23 @@ app-content
     import "./common/login.tag"
     import "./home/home.tag"
     import "./work/work.view.tag"
-    import "./common/landing.tag"
+    
+
+    
+    
+
     
     
     // router
     const _mount = (tagName , option = {}) =>
     {
         let tag
+        // WORK/*
         if(tagName == AppStore.config.views.work){
-          tag = riot.mount('div#work-overlay' , tagName , option);
-          console.log("on /*/ work-view",option)        
+          tag = riot.mount('div#work-overlay' , tagName , option);          
+        // HOME..
         }else{
           tag = riot.mount('div#main' , tagName , option);
-          console.log("on / home-view",option)        
         }
     		// reconnecting this mounted tag with the root
     		this.tags[tagName] = tag[0];
@@ -35,10 +37,7 @@ app-content
     this.on('mount',()=>{
       
       route("work/*",(name)=>{
-        console.log("ROUTER: WORK")
-  			
         AppAction.getPost(name,()=>{
-          opts.state.trigger('route:changed' , name);
           RiotControl.trigger(ActionTypes.ON_ROUTE_CHANGED,AppStore.config.views.work)          
           _mount(AppStore.config.views.work,name)
         })
@@ -46,13 +45,11 @@ app-content
       })
       //ルーター（イベントリスナーも兼ねてる）
     	route((action='home') =>{   
-        
         if(AppStore.data.homeLoaded) return
         
-        console.log("ROUTER: NORMAL")
-    		
-        opts.state.trigger('route:changed' , action);
         
+        
+        console.log('route',action)        
         RiotControl.trigger(ActionTypes.ON_ROUTE_CHANGED,action)
     	    switch (action) {
             case 'signup':

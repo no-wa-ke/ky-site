@@ -2,79 +2,26 @@ import debounce from "debounce"
 import RiotControl from "riotcontrol"
 import AppStore from "../store/app.store"
 import ActionTypes from "./app.actiontypes"
-import contentful from "contentful"
-import marked from "marked"
-
+import ApiInterface from '../api/api.interface.js'
 
 const appAction = new class AppAction {
 
   constructor() {
     window.onresize = debounce(this.onresize, 200)
-
-    //contentful api
-    this.client = contentful.createClient({
-      space: AppStore.config.api.space,
-      accessToken: AppStore.config.api.token,
-    })
-
-
+    this.api = new ApiInterface()
   }
 
   getAllPosts(){
-    this.client.getEntries({
-      content_type: AppStore.config.api.contentType.work,
-      "select":AppStore.config.api.fields.top
-    })
-    .then((entries)=>{
-
-      AppStore.data.posts.top = this.sortByDate(entries.items)
-
-    })
-    .then(()=>{
-      RiotControl.trigger(ActionTypes.ON_TOP_CONTENTS_LOADED)
-    })
+    this.api.getAllPosts()
+    .then(()=>{RiotControl.trigger(ActionTypes.ON_TOP_CONTENTS_LOADED)})
   }
 
-
-
   getPost($slug,cb){
-    this.client.getEntries({
-      content_type: AppStore.config.api.contentType.work,
-      "fields.slug":$slug,
-
-    })
-    .then((entries)=>{
-      console.log("**********got post**********",entries.items)
-      AppStore.data.posts.post = entries.items
-
-      AppStore.data.posts.post.forEach((entry)=>{
-
-        entry.fields.post = marked(entry.fields.post)
-
-      })
-    })
+    this.api.getPost($slug)
     .then(()=>{
       RiotControl.trigger(ActionTypes.ON_POST_CONTENT_LOADED)
       cb();
     })
-  }
-
-
-  sortByDate($array){
-    let _array = $array
-    _array.sort((a,b)=>{
-      console.log("sorting array",a,b)
-      let key1 = a.fields.releaseDate;
-      let key2 = b.fields.releaseDate;
-      if (key1 < key2) {
-          return -1;
-      } else if (key1 == key2) {
-          return 0;
-      } else {
-          return 1;
-      }
-    })
-    return _array
   }
 
   onresize() {

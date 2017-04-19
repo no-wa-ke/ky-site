@@ -27,7 +27,9 @@
     "sassAll": "**/*.{sass,scss}",
     "css": "**/*.css",
     "js": "**/*.js",
+    "bundle_js":"bundle.js",
     "fonts": "**",
+    "vendor_js":"app/vendor.js",
     "model": "**",
     "images": "{,*/,*/*/}*.{png,jpg,jpeg,gif}",
     "static": "**",
@@ -35,7 +37,7 @@
   },
   "vendor": {
     "js": [
-      "semantic/dist/semantic.min.js"
+
 
     ],
     "assets": [

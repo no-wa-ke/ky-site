@@ -1,12 +1,11 @@
 import "./lib/OrbitControls"
-import Uniforms from "./uniforms"
+// import Uniforms from "./uniforms"
 import PerlinNoise from "../util/perlin"
 import RiotControl from "riotcontrol"
 import ActionTypes from "../action/app.actiontypes.js"
 import AppStore from "../store/app.store"
 import AltFetch from "../util/altFetch"
 import Promise from "promise"
-import anime from "animejs"
 import ModelParams from "./param"
 
 
@@ -18,8 +17,8 @@ export default class MyModel {
   constructor(opts = {}) {
     return new Promise((resolve, reject) => {
       this.speed = 0;
-      this.totalSize  = 9325173
-      this.modelSrc = './assets/model/blender-three-without-scene2.json'
+      this.totalSize  = 11389127
+      this.modelSrc = './assets/model/happy_dance.json'
       this.bgSrc = ""
       this.self = this;
       this.width = window.innerWidth;

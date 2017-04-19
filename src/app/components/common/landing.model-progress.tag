@@ -6,7 +6,7 @@ model-progress
   p#progress-text.percentage-text {percentage}%
 
   script.
-    import riot from "riot"
+    
     import RiotControl from "riotcontrol"
     import ActionTypes from "../../action/app.actiontypes"
     

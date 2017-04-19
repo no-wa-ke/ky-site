@@ -1,16 +1,15 @@
-app(role="main")
+app(role="main" class='{invisible:invisible}')
   
-  app-nav(state="{globalState}")
-  app-content(state="{globalState}")
+  app-nav
+  app-content
   
   script.
-    import riot from "riot";
-  
     import './app-content.tag'
     import './app-nav.tag'
     
-    this.on("mount",()=>{
-      this.update({
-        globalState: riot.observable({})
-      });	
+    this.invisible = true;
+    this.one('mount',()=>{
+      this.invisible = false;
+      this.opts.promise()
+      this.update()
     })

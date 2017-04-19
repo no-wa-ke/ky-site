@@ -12,8 +12,7 @@ home-work-list
 						a.group {post.fields.subtitle}
 	
 	script.
-		import riot from "riot"
-		import route from "riot-route"
+		
 		import RiotControl from "riotcontrol"
 		import debounce from "debounce"
 		import AppAction from "../../action/app.action"
