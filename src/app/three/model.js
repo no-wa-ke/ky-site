@@ -17,8 +17,8 @@ export default class MyModel {
   constructor(opts = {}) {
     return new Promise((resolve, reject) => {
       this.speed = 0;
-      this.totalSize  = 8067238
-      this.modelSrc = './assets/model/lq_dance.json'
+      this.totalSize  = 11389127
+      this.modelSrc = './assets/model/happy_dance.json'
       this.bgSrc = ""
       this.self = this;
       this.width = window.innerWidth;
@@ -94,7 +94,7 @@ export default class MyModel {
 
             const scale = self.params.scale
             this.myMesh.scale.set(-scale, scale, scale);
-            this.myMesh.position.set(0, -60, 0);
+            this.myMesh.position.set(0, -80, 0);
             this.mixer = new THREE.AnimationMixer(this.myMesh);
             this.scene.add(this.myMesh);
 

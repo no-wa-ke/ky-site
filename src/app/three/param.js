@@ -2,7 +2,7 @@ const modelParams = new class ModelParams {
 
 	constructor() {
 
-		this.scale = 1000/3;
+		this.scale = 1000/11;
 		this.radius = 1;
 		this.noise_a = 0.03;
 		this.noise_x = 3;
