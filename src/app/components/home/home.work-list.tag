@@ -1,7 +1,7 @@
 home-work-list
-	div.ui.container.segment.stripe.vertical.scroll-watch#work
+	div.ui.container.segment.stripe.vertical.scroll-watch#portfolio
 		div(class="{four:gridSize == 4,two:gridSize == 2}").ui.cards
-			div(each="{post, i in posts}").ui.card
+			div(if="{posts}" each="{post, i in posts}").ui.card
 				a(onclick="{unveilWork}" ).image
 					img(src="{post.fields.thumbnail.fields.file.url}")
 				div.content
@@ -26,9 +26,18 @@ home-work-list
 		
 		this.on("mount",()=>{		
 			const self = this
-			
+
+			//- RiotControl.on(ActionTypes.ON_TOP_CONTENTS_LOADED,()=>{
+			//- 	
+			//- })
+
+			RiotControl.on(ActionTypes.ON_POST_CONTENT_FILTERED,()=>{
+				this.posts = AppStore.state.posts.top
+				this.update();		
+			})
+						
 			RiotControl.on(ActionTypes.ON_TOP_CONTENTS_LOADED,()=>{
-				this.posts = AppStore.data.posts.top
+				this.posts = AppStore.state.posts.top
 				this.update();		
 			})
 			//- TODO: add window resize handler
@@ -66,7 +75,7 @@ home-work-list
 					}
 				});
 			}
-			if(el == "#work"){
+			if(el == "#portfolio"){
 				_addClass(true);
 			}else{
 				_addClass(false);
@@ -75,7 +84,7 @@ home-work-list
 			
 		this.unveilWork = (e)=>{
 
-			history.pushState({}, null, "/work/"+e.item.post.fields.slug);
+			history.pushState({}, null, "/portfolio/"+e.item.post.fields.slug);
 			route.exec()
 			
 		}

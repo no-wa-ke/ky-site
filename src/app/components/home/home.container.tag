@@ -1,6 +1,5 @@
 home-container
 	div.top-overlay#home
-	home-about
 	home-work-list
 	home-contact
 	script.

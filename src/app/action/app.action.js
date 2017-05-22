@@ -3,24 +3,34 @@ import RiotControl from "riotcontrol"
 import AppStore from "../store/app.store"
 import ActionTypes from "./app.actiontypes"
 import ApiInterface from '../api/api.interface.js'
+import Loader from '../components/loader/loader'
 
 const appAction = new class AppAction {
 
   constructor() {
+    console.log('APP ACTION INIT')
     window.onresize = debounce(this.onresize, 200)
     this.api = new ApiInterface()
+    this.loader = new Loader()
   }
 
   getAllPosts(){
     this.api.getAllPosts()
     .then(()=>{RiotControl.trigger(ActionTypes.ON_TOP_CONTENTS_LOADED)})
   }
+  getFilteredPosts(arg){
+    this.api.getFilteredPosts(arg)
+    .then(()=>{RiotControl.trigger(ActionTypes.ON_TOP_CONTENTS_LOADED)})
+  }
 
-  getPost($slug,cb){
-    this.api.getPost($slug)
-    .then(()=>{
-      RiotControl.trigger(ActionTypes.ON_POST_CONTENT_LOADED)
-      cb();
+  getPost($slug){
+    return new Promise((resolve,reject)=>{
+      this.loader.showTransition()
+      .then(()=>this.api.getPost($slug))
+      .then(()=>{
+        RiotControl.trigger(ActionTypes.ON_POST_CONTENT_LOADED)
+        resolve()
+      })
     })
   }
 

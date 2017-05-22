@@ -1,31 +1,59 @@
 home-top
-	//- div.gradient
+
 	div#home-top.invisible
-	
-	style.
 
+
+	style(type='prefix').
+		home-top{
+			position:fixed;
+			.container{
+				width:100%;
+				height:100%;
+				display:flex;
+				position:fixed;
+				justify-content:center;
+				align-items:center;
+				.bg-white-card{
+					border-radius: 2px;
+					background: white;
+				}
+			}
+		}
 	script.
+		import debounce from 'debounce'
 		
-		import MyModel from "../../three/model"
-		import domready from 'domready'
-		import RiotControl from "riotcontrol"
-		import ActionTypes from "../../action/app.actiontypes.js"
-		import AppStore from "../../store/app.store"
-		import AppAction from "../../action/app.action"
-
-
-		this.on("mount",()=>{
-			console.log('top mounted')
-			RiotControl.on(ActionTypes.ON_ANIMATED_TRANSITION_MOUNT,()=>{	
-				const myModel = new MyModel({
-					output: document.getElementById('home-top')
-				}).then(()=>{
-					this.init()
-				});				
-			})
+		this.margin = 100;
+		
+		this.size = {
+			x:window.innerWidth,
+			y:window.innerHeight
+		}
+		
+		this.style= {
+			width: this.size.x- this.margin +'px',
+			height: this.size.y - this.margin+'px'
+		}
+		
+		this.resize = ()=>{
+			
+			if(detector.os.name == 'ios'){
+				if (this.size.x == window.innerWidth) {
+					return;
+				}
+			}
+			console.log(this.size.x,this.size.y)
+			this.style.width = window.innerWidth -this.margin+'px'
+			this.style.height = window.innerHeight - this.margin+'px'
+			this.update()
+		}
+		
+		this.on('mount',()=>{
+			
+			let self = this
+			$(window).on('resize', debounce(()=>{
+				self.resize()
+			},100))
+	
+			
 		})
 		
-		init(){
-			RiotControl.trigger(ActionTypes.ON_MODEL_LOADED)
-			AppAction.getAllPosts();
-		}

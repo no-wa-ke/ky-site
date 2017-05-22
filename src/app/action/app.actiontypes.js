@@ -17,5 +17,6 @@ export default {
 
   ON_TOP_CONTENTS_LOADED : "app_top_contents_loaded",
   ON_POST_CONTENT_LOADED : "app_post_content_loaded",
+  ON_POST_CONTENT_FILTERED : "app_post_content_filtered",
   ON_MUSIC_CONTENT_LOADED : "app_music_content_loaded"
 }

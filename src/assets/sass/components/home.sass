@@ -1,6 +1,8 @@
 @import "../common/_mixin"
 home-view
 
+#home-top
+  background: whitesmoke
 home-container
   .top-overlay
     height: 100vh
@@ -15,24 +17,26 @@ home-container
     // background: #E0EAFC!important
     // background: -webkit-linear-gradient(to left, rgba(224,234,252,0.8) , rgba(207,222,243,0.9))!important
     // background: linear-gradient(to left, rgba(224,234,252,0.8) , rgba(207,222,243,0.9))!important
-    background-color: initial!important
-    background: rgba(255,255,255,0.6)!important
+    background: rgba(255,255,255,0.0)
     .dividing.inverted
       border-bottom: 1px rgba(255,255,255,0.5) solid!important
     height: 100vh
     width: 100%
     display: block
   home-contact
-    background: rgba(255,255,255,0.6)!important
+    // background: rgba(255,255,255,0.6)!important
     height: 100vh
 
+  .half-opacity
+    background: rgba(255,255,255,0.6)
   home-work-list
-    background: white
+    background: rgba(255,255,255,0.0)
     display: block
     .ui.container
       padding-top: 200px
       padding-bottom: 300px
     .ui.card
+      background: transparent
       .thicker
         border-top: 1px black solid!important
         border-bottom: 1px black solid!important

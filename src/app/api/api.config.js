@@ -10,7 +10,7 @@ export default {
     top: ["fields.title",
           "fields.subtitle",
           "fields.thumbnail",
-          "fields.tags",
+          "fields.type",
           "fields.releaseDate",
           "fields.slug"
           ],

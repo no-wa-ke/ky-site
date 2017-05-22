@@ -1,8 +1,8 @@
 const modelParams = new class ModelParams {
-	
+
 	constructor() {
 
-		this.scale = 100;
+		this.scale = 1000/3;
 		this.radius = 1;
 		this.noise_a = 0.03;
 		this.noise_x = 3;
@@ -15,7 +15,7 @@ const modelParams = new class ModelParams {
 		this.plane = false;
 		this.texture = true;
 		this.time = 1;
-	  this.uniforms = 
+	  this.uniforms =
 			{
 			time: {
 			type: 'f',

@@ -8,45 +8,54 @@ const appStore = new class AppStore {
 
     self.on(ActionTypes.ON_ROUTE_CHANGED, this.updateCurrentPage)
     self.on(ActionTypes.ON_HOME_LOADED, this.updateHomeLoaded)
+    self.on(ActionTypes.ON_INITIAL_LOCATION, this.updateInitialLocation)
     self.on(ActionTypes.ON_NAV_MENU_CLICKED, this.updateFocus)
     self.on(ActionTypes.ON_SCROLL_ON_ELEMENT, this.updateFocusScroll)
     self.on(ActionTypes.ON_MODEL_LOADED,this.updateModelLoadStatus)
   }
 
   updateCurrentPage(page){
-    this.data.currentPage = page
-    // console.log("***STORE CHANGED: updateCurrentPage",page)
-    RiotControl.trigger(this.ActionTypes.UPDATE_ROUTE, this.data.currentPage)
+    this.state.currentPage = page
+    console.log("***STORE CHANGED: updateCurrentPage",page)
+    RiotControl.trigger(this.notify.UPDATE_ROUTE, this.state.currentPage)
+
   }
+  updateInitialLocation(path){
+    this.state.initial_location = path
+    // RiotControl.trigger(this.notify., this.state.homeLoaded)
+  }
+
   updateHomeLoaded(loaded){
-    this.data.homeLoaded = loaded
-    RiotControl.trigger(this.ActionTypes.UPDATE_HOME_LOADED, this.data.homeLoaded)
+    this.state.homeLoaded = loaded
+    RiotControl.trigger(this.notify.UPDATE_HOME_LOADED, this.state.homeLoaded)
   }
   updateFocus(item) {
-    // console.log("***STORE CHANGED: updateFocus",item)
-    this.data.currentPage = item
-    RiotControl.trigger(this.ActionTypes.UPDATE_FOCUS, this.data.currentPage)
+    console.log("***STORE CHANGED: updateFocus",item)
+    this.state.currentPage = item
+    RiotControl.trigger(this.notify.UPDATE_FOCUS, this.state.currentPage)
   }
   updateFocusScroll(item) {
-    // console.log("***STORE CHANGED: updateFocusScroll",item)
-    this.data.currentPage = item
-    RiotControl.trigger(this.ActionTypes.UPDATE_FOCUS_SCROLL, this.data.currentPage)
+    console.log("***STORE CHANGED: updateFocusScroll",item)
+    this.state.currentPage = item
+    RiotControl.trigger(this.notify.UPDATE_FOCUS_SCROLL, this.state.currentPage)
   }
   updateModelLoadStatus(){
-    this.data.homeLoaded = true
-    RiotControl.trigger(this.ActionTypes.UPDATE_HOME_LOADED, this.data.homeLoaded)
+    this.state.homeLoaded = true
+    RiotControl.trigger(this.notify.UPDATE_HOME_LOADED, this.state.homeLoaded)
   }
 
 }()
 
-appStore.ActionTypes = {
+appStore.notify = {
+  INIT_LOCATION: "app_set_initial_location",
   UPDATE_ROUTE: "app_route_changed",
   UPDATE_HOME_LOADED: "app_home_loaded",
   UPDATE_FOCUS: "app_focus_page_changed",
   UPDATE_FOCUS_SCROLL: "app_focus_page_changed_scroll"
 }
 // 動的
-appStore.data = {
+appStore.state = {
+  initial_location: '/',
   currentPage: "",
   homeLoaded: false,
   posts:{
@@ -90,7 +99,8 @@ appStore.config = {
   path:{
     root: "/",
     home:"/home",
-    work:"/work",
+    work:"/portfolio",
+    work_page:"/portfolio/*",
     project:"/project",
     about:"/about",
     contact:"/contact",
@@ -98,10 +108,10 @@ appStore.config = {
   },
   id:{
     home:"#home",
-    work:"#work",
+    work:"#portfolio",
     project:"#project",
     about:"#about",
-    contact:"#contact",
+    contact:"#profile",
     article:"#article"
   },
   views:{

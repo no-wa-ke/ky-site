@@ -4,10 +4,10 @@ const riot = require('riot');
 const sass = require('node-sass');
 const getdir = require('path').dirname;
 const autoprefixer = require('autoprefixer')
+var fs  = require('fs');
 
 //custom riot sass parser by yoji kido
 riot.parsers.css['sass-prefix']= (tagName,css,opts,url)=>{
-
 	var type = 'space'
 	var spc = css.match(/^\s+/)
 	if (spc) {
@@ -28,11 +28,9 @@ riot.parsers.css['sass-prefix']= (tagName,css,opts,url)=>{
 	var prefix = autoprefixer.process(res).css + ``
 
 	return prefix
-
-
 }
-riot.parsers.css['prefix']= (tagName,css,opts,url)=>{
 
+riot.parsers.css['prefix'] = (tagName,css,opts,url)=>{
 	var defopts = {
 		data:css,
 	  indentedSyntax: false,
@@ -51,7 +49,7 @@ riot.parsers.css['prefix']= (tagName,css,opts,url)=>{
 const webpackConfig = {
 	// cache: true,
 	module: {},
-	devtool: 'inline-source-map'
+	// devtool: 'inline-source-map'
   // devtool: 'eval',
 }
 
@@ -66,26 +64,24 @@ webpackConfig.externals = {
 		'window.jquery': 'jquery',
 		'window.jQuery': 'jquery',
 		'window.route': 'riot-route',
+		'window.detector': 'detector',
 		// 'window.Snap': 'Snap',
-		'window.semantic': 'semantic',
-		'window.anime': 'anime',
+		// 'window.semantic': 'semantic',
+		// 'window.anime': 'anime',
 
 }
 
 webpackConfig.plugins = [
-
-	new webpack.ProvidePlugin({
-
-	}),
+	new webpack.optimize.OccurrenceOrderPlugin(),
 
 ];
 
 webpackConfig.module.preLoaders = [{
 	test: /\.tag$/,
 	exclude: /node_modules/,
-	loader: 'riotjs-loader',
+	loader: 'riot-tag-loader',
 	query: {
-		template: 'pug'
+		template: 'pug',debug:'true' ,type:'none',
 	},
 }];
 

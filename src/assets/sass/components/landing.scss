@@ -1,7 +1,10 @@
+@import '../common/_colors';
 
-
+body{
+  font-family: "Source Sans Pro", sans-serif!important;
+}
 #landing-view{
-  
+
   width: 100%;
   height: 100%;
   position: absolute;
@@ -17,8 +20,6 @@
     vertical-align: middle;
     justify-content: center;
 
-
-
   }
   .percentage{
     animation: rotatefull 9s 0s infinite;
@@ -33,12 +34,12 @@
 
   }
   circle {
-    stroke: #dee0de;
+    stroke: $GREY;
 
     fill: none;
     &:last-of-type {
       opacity: 0;
-      stroke: #0d1c35;
+      stroke: $WHITE;
       transition: stroke-dashoffset .5s ease-out;
     }
     &.complete{
@@ -46,8 +47,8 @@
     }
   }
   #progress-text{
+    color : $WHITE;
     text-align: center;
-    color: #0d1c35;
     position: absolute;
     font-size: 1rem;
     transition: opacity 0.3s ease-in-out;

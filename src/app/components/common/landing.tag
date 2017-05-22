@@ -2,8 +2,6 @@ landing-view
   div#animated-transition
   div#model-progress  
 
-  style.
-    
   script.
     
     import RiotControl from "riotcontrol"
@@ -12,11 +10,9 @@ landing-view
     import "./animated-transition.tag"
     
     this.on('mount',()=>{
-      
-      console.log('landing-vie mounted')
-      riot.mount("div#animated-transition","animated-transition")
+      console.log('landing-vue mounted')
+      riot.mount("div#animated-transition","animated-transition",{promise:this.opts.promise})
       riot.mount("div#model-progress","model-progress")
-      this.opts.promise()
       
     })
     

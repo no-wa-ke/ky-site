@@ -17,8 +17,8 @@ export default class MyModel {
   constructor(opts = {}) {
     return new Promise((resolve, reject) => {
       this.speed = 0;
-      this.totalSize  = 11389127
-      this.modelSrc = './assets/model/happy_dance.json'
+      this.totalSize  = 8067238
+      this.modelSrc = './assets/model/lq_dance.json'
       this.bgSrc = ""
       this.self = this;
       this.width = window.innerWidth;
@@ -28,14 +28,14 @@ export default class MyModel {
       this.output = opts.output || document.createElement('div');
       this.danceClip;
       this.myMesh = new THREE.Mesh();
-      this.backgroundColors = {
-        white:"rgb(255, 255, 255)",
-        yellow:"rgb(255, 255, 0)",
-        cyan: "rgb(20, 220, 255)"
-      }
-      this.currentBackgroundColor = {
-        color: this.backgroundColors.white
-      }
+      // this.backgroundColors = {
+      //   white:"rgb(255, 255, 255)",
+      //   yellow:"rgb(255, 255, 0)",
+      //   cyan: "rgb(20, 220, 255)"
+      // }
+      // this.currentBackgroundColor = {
+      //   color: this.backgroundColors.white
+      // }
       this.initParams()
 
       this.init(resolve);
@@ -48,10 +48,10 @@ export default class MyModel {
 
       { // renderer
         this.renderer = new THREE.WebGLRenderer({
-          antialias: true,
-          // alpha: true
+          // antialias: true,
+          alpha: true
         });
-        this.renderer.setClearColor(this.currentBackgroundColor.color); // 背景色
+        this.renderer.setClearColor( 0x000000, 0  ); // 背景色
         this.renderer.setPixelRatio(window.devicePixelRatio || 1);
         this.renderer.setSize(this.width, this.height);
         // this.renderer.sortObjects = false;
@@ -94,7 +94,7 @@ export default class MyModel {
 
             const scale = self.params.scale
             this.myMesh.scale.set(-scale, scale, scale);
-            this.myMesh.position.set(0, -80, 0);
+            this.myMesh.position.set(0, -60, 0);
             this.mixer = new THREE.AnimationMixer(this.myMesh);
             this.scene.add(this.myMesh);
 
@@ -145,15 +145,26 @@ export default class MyModel {
     { // controls
       this.controls = new THREE.OrbitControls(this.camera);
       this.controls.enabled = false;
-      // this.controls.autoRotate = true;
+      this.controls.autoRotate = false;
     }
 
-    { //animation
+    {
+      // shim layer with setTimeout fallback
+      window.requestAnimFrame = (function(){
+        return  window.requestAnimationFrame       ||
+                window.webkitRequestAnimationFrame ||
+                window.mozRequestAnimationFrame    ||
+                function( callback ){
+                  window.setTimeout(callback, 1000 / 24);
+                };
+      })();
+
+       //animation
       this.isPaused = false;
       this.clock = new THREE.Clock();
 
       this.animate = () => {
-        requestAnimationFrame(this.animate);
+        requestAnimFrame(this.animate);
         this.render();
       }
       this.stopAnimate = ()=>{
@@ -174,37 +185,43 @@ export default class MyModel {
       };
     }
     {// dispatcher
-      RiotControl.on(AppStore.ActionTypes.UPDATE_FOCUS_SCROLL,(page)=>{
-        if(page ==AppStore.config.id.about){
+
+      RiotControl.on(AppStore.notify.UPDATE_FOCUS,(page)=>{
+        let _p = '#' + page
+        if(_p ==AppStore.config.id.contact){
+          this.isPaused = false
           // this.animateColor(this.backgroundColors.yellow)
-        }else if (page ==AppStore.config.id.contact){
+        }else if (_p ==AppStore.config.id.work){
+          this.isPaused = false
           // this.animateColor(this.backgroundColors.cyan)
-        }else if (page == AppStore.config.id.home){
+        }else if (_p == AppStore.config.id.home){
+          this.isPaused = false
           // this.animateColor(this.backgroundColors.white)
         }
       })
-      RiotControl.on(AppStore.ActionTypes.UPDATE_ROUTE,(page)=>{
-        if(page == AppStore.config.views.work){
+      RiotControl.on(AppStore.notify.UPDATE_FOCUS_SCROLL,(page)=>{
+        console.log('starting render on ',page)
+        if(page ==AppStore.config.id.contact){
+          this.isPaused = false
+          // this.animateColor(this.backgroundColors.yellow)
+        }else if (page ==AppStore.config.id.work){
+          this.isPaused = false
+          // this.animateColor(this.backgroundColors.cyan)
+        }else if (page == AppStore.config.id.home){
+          this.isPaused = false
+          // this.animateColor(this.backgroundColors.white)
+        }
+      })
+      RiotControl.on(AppStore.notify.UPDATE_ROUTE,(page)=>{
+        console.log('stopping render on ',page)
+        if(page == 'work-view'){
           this.stopAnimate()
         }else{
           this.isPaused = false
         }
       })
 
-      RiotControl.on(AppStore.ActionTypes.UPDATE_FOCUS,(page)=>{
-        if(page == AppStore.config.id.work){
-          this.stopAnimate()
-        }else{
-          this.isPaused = false
-        }
-      })
-      RiotControl.on(AppStore.ActionTypes.UPDATE_FOCUS_SCROLL,(page)=>{
-        if(page == AppStore.config.id.work){
-          this.stopAnimate()
-        }else{
-          this.isPaused = false
-        }
-      })
+
     }
     // メソッドをそのまま渡すと`not function`と怒られるので
     // 無名関数で囲って関数にする点に注意
@@ -339,23 +356,6 @@ export default class MyModel {
   }
 
   createSphere(){
-    // const plane_geometry = new THREE.PlaneBufferGeometry(4, 4, 256, 256);
-    // const _geometry = new THREE.SphereBufferGeometry(1, 256, 256);
-    //       _geometry.addAttribute('position2', plane_geometry.attributes.position);
-    // // const sphere = new THREE.Mesh(_geometry, new THREE.MeshBasicMaterial({shading:THREE.FlatShading,color:0xfff000}))
-    // const sphere = new THREE.Mesh(_geometry, new THREE.ShaderMaterial({
-    //     uniforms: this.uniforms,
-    //     vertexShader: document.getElementById('vertex-shader').textContent,
-    //     fragmentShader: document.getElementById('fragment-shader').textContent,
-    //     transparent: true,
-    //     shading: THREE.FlatShading,
-    //     side: THREE.DoubleSide,
-
-    //   }));
-    // sphere.scale.set(1,1,1)
-    // sphere.position.set(0, -50, 0);
-    // console.log("ADDED SPHERE",sphere)
-    // this.scene.add( sphere );
 
   }
 

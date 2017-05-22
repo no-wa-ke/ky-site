@@ -1,17 +1,5 @@
-/* ==============================variables===================================
-/**
- * Custom Variables
 
-//CUSTOM VARS HERE
-
-/**
- * font-awesome
-$fa-font-path: "../../node_modules/font-awesome/fonts/"
-
-@import ../../../../node_modules/font-awesome/scss/font-awesome
-
-/**
- * Bootstrap Variables override
+@import './_media_query.scss'
 
 $border-radius: 0
 $border-radius-lg: 0
@@ -28,6 +16,9 @@ $work-space-padding : 80px
   margin-top: 2rem!important
   margin-bottom: 4rem!important
 .work-spacer
+  @include mobile-only
+    padding-top: 10px
+    padding-bottom: 10px
   padding-top: $work-space-padding
   padding-bottom: $work-space-padding
 .inline

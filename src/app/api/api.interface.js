@@ -1,5 +1,5 @@
 import EndPoint from './api.endpoint'
-import Util from '../util/Util'
+import Utils from '../util/utils'
 import contentful from "contentful"
 import marked from "marked"
 import ApiConfig from './api.config'
@@ -24,7 +24,7 @@ export default class ApiInterface {
       })
       .then((entries)=>{
 
-        AppStore.data.posts.top = this.sortByDate(entries.items)
+        AppStore.state.posts.top = this.sortByDate(entries.items)
 
       })
       .then(()=>{
@@ -34,27 +34,45 @@ export default class ApiInterface {
     }).catch(err=>reject(err))
   }
 
+  getFilteredPosts(type='client'){
+
+    return new Promise((resolve,reject)=>{
+      this.client.getEntries({
+        content_type: ApiConfig.contentType.work,
+        "fields.type": type,
+        "select":ApiConfig.fields.top
+      })
+      .then((entries)=>{
+        AppStore.state.posts.top = this.sortByDate(entries.items)
+      })
+      .then(()=>{
+        resolve()
+      })
+    }).catch(err=>reject(err))
+  }
+
+
   getPost($slug){
-    return new Promise((resove,reject)=>{
+    return new Promise((resolve,reject)=>{
 
       this.client.getEntries({
         content_type: ApiConfig.contentType.work,
-        "fields.slug":$slug,
-
+        "fields.slug":$slug
       })
       .then((entries)=>{
         console.log("**********got post**********",entries.items)
-        AppStore.data.posts.post = entries.items
+        AppStore.state.posts.post = entries.items
 
-        AppStore.data.posts.post.forEach((entry)=>{
+        AppStore.state.posts.post.forEach((entry)=>{
 
           entry.fields.post = marked(entry.fields.post)
 
         })
       })
       .then(()=>{
+        console.log('POST RETRIVED::',AppStore.state.posts.post)
         // RiotControl.trigger(ActionTypes.ON_POST_CONTENT_LOADED)
-        resove()
+        resolve()
       })
 
     }).catch(err=>reject())
@@ -63,16 +81,17 @@ export default class ApiInterface {
   sortByDate($array){
     let _array = $array
     _array.sort((a,b)=>{
-      console.log("sorting array",a,b)
+      console.log("sorting array",a.fields.releaseDate,b.fields.releaseDate)
       let key1 = a.fields.releaseDate;
       let key2 = b.fields.releaseDate;
-      if (key1 < key2) {
-          return -1;
-      } else if (key1 == key2) {
-          return 0;
-      } else {
-          return 1;
-      }
+      return (key1 < key2 ? 1 : -1);
+      // if (key1 < key2) {
+      //     return 1;
+      // } else if (key1 == key2) {
+      //     return 0;
+      // } else {
+      //     return 1;
+      // }
     })
     return _array
   }
