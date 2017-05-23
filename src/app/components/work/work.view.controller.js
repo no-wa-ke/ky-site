@@ -11,7 +11,6 @@ export default {
 
     this.loader = new Loader()
 
-
 		this.on('mount',()=>{
 			const self = this;
 
@@ -31,7 +30,6 @@ export default {
           }
         })
       }
-
 			this.update()
     })
 
@@ -61,7 +59,7 @@ export default {
 
 		this.setIframeResponsive('.iframe-container',$allTarget)
 
-		$.getScript( "http://platform.instagram.com/en_US/embeds.js",()=>{
+		$.getScript( window.location.protocol + "//platform.instagram.com/en_US/embeds.js",()=>{
 			console.log('****LOAD external script :: loading scripts')
 				instgrm.Embeds.process()
 		})
