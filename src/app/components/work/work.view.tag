@@ -97,17 +97,15 @@ work-view
     }
 
   script.
+    import AppStore from "../../store/app.store"
     import WorkController from './work.view.controller'
-    import AppStore from '../../store/app.store'
-    
-    this.mixin(WorkController)
-    
-    this.data = AppStore.state.posts.post[0].fields
-    
+
     riot.tag('marked', '<div class="iframe-container"></div>', function(opts) {                                                                                                                                              
       this.on('update', function() {                                                                                                                                                             
         this.root.childNodes[0].innerHTML = opts.html;                                                                                                                                           
       }.bind(this))                                                                                                                                                                              
     })   
     
+    this.data = AppStore.state.posts.post[0].fields
+    this.mixin(WorkController)
   

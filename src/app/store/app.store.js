@@ -12,6 +12,7 @@ const appStore = new class AppStore {
     self.on(ActionTypes.ON_NAV_MENU_CLICKED, this.updateFocus)
     self.on(ActionTypes.ON_SCROLL_ON_ELEMENT, this.updateFocusScroll)
     self.on(ActionTypes.ON_MODEL_LOADED,this.updateModelLoadStatus)
+    self.on(ActionTypes.ON_POST_CONTENT_LOADED,this.updatePostContent)
   }
 
   updateCurrentPage(page){
@@ -43,6 +44,9 @@ const appStore = new class AppStore {
     this.state.homeLoaded = true
     RiotControl.trigger(this.notify.UPDATE_HOME_LOADED, this.state.homeLoaded)
   }
+  updatePostContent(){
+    RiotControl.trigger(this.notify.UPDATE_POST_CONTENT, this.state.posts.post)
+  }
 
 }()
 
@@ -51,7 +55,9 @@ appStore.notify = {
   UPDATE_ROUTE: "app_route_changed",
   UPDATE_HOME_LOADED: "app_home_loaded",
   UPDATE_FOCUS: "app_focus_page_changed",
-  UPDATE_FOCUS_SCROLL: "app_focus_page_changed_scroll"
+  UPDATE_FOCUS_SCROLL: "app_focus_page_changed_scroll",
+  UPDATE_POST_CONTENT:"app_a_post_content_loaded",
+
 }
 // 動的
 appStore.state = {

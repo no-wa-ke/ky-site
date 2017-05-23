@@ -60,14 +60,12 @@ export default class ApiInterface {
         "fields.slug":$slug
       })
       .then((entries)=>{
-        console.log("**********got post**********",entries.items)
+
         AppStore.state.posts.post = entries.items
-
         AppStore.state.posts.post.forEach((entry)=>{
-
           entry.fields.post = marked(entry.fields.post)
-
         })
+
       })
       .then(()=>{
         console.log('POST RETRIVED::',AppStore.state.posts.post)

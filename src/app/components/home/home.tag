@@ -44,7 +44,7 @@ home-view
 		RiotControl.on(LoaderActionType.ON_LOADER_UNMOUNT,()=>{
 			console.log('LOADER UNMOUNTeD',self.stop)
 			if(self.stop){
-				this.update()
+				//- this.update()
 			}			
 		})
 		this.on("unmount",()=>{

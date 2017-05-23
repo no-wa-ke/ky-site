@@ -4,6 +4,8 @@ const riot = require('riot');
 const sass = require('node-sass');
 const getdir = require('path').dirname;
 const autoprefixer = require('autoprefixer')
+
+
 var fs  = require('fs');
 
 //custom riot sass parser by yoji kido
@@ -72,8 +74,13 @@ webpackConfig.externals = {
 }
 
 webpackConfig.plugins = [
+  // new WebpackClearConsole(),
 	new webpack.optimize.OccurrenceOrderPlugin(),
-  new webpack.optimize.UglifyJsPlugin()
+  new webpack.optimize.UglifyJsPlugin({
+    compress: {
+      drop_console: true,
+    }
+  }),
 ];
 
 webpackConfig.module.preLoaders = [{

@@ -29,7 +29,6 @@ class Router{
 
     // WORK/*
     if(tagName == AppStore.config.views.work){
-
       riot.mount('div#work-overlay' , tagName , option);
     // HOME..
     }else{
@@ -43,7 +42,6 @@ class Router{
 
       AppAction.getPost(name)
       .then(()=>{
-        console.log("route on work ",'workview',name)
         RiotControl.trigger(ActionTypes.ON_ROUTE_CHANGED,AppStore.config.views.work)
         this._mount(AppStore.config.views.work,name);
 

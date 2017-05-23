@@ -64,9 +64,13 @@ loader-spill
       this.loader.show()
 
       Utils._promiseTimeout(this.animationDuration).then(()=>{
+      
         RiotControl.trigger(ActionTypes.ON_WORK_TRANSITION_COMPLETE)  
+      
         this.opts.promise()
+      
         $('.loader-container').removeClass('active')
+
         if(this.opts.timeout){
           this.loader.hide(()=>{
             this.unmount(true)

@@ -11,7 +11,8 @@ export default {
 
     this.loader = new Loader()
 
-		this.one('mount',()=>{
+
+		this.on('mount',()=>{
 			const self = this;
 
 			this.preventScrollEvents()
@@ -31,12 +32,10 @@ export default {
         })
       }
 
-
 			this.update()
-
-
     })
-		this.one('updated',()=>{
+
+		this.on('updated',()=>{
 			this.getExternalScripts()
 		})
 
@@ -57,7 +56,6 @@ export default {
 		let $allTarget =  $('iframe[src*="youtube.com"],blockquote.instagram-media,iframe[src*="vimeo"]');
 
 		if($allTarget.length == 0	){
-			console.log('****LOAD external script :: target iframe not found',$allTarget);
 			return;
 		}
 
