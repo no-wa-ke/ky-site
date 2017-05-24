@@ -86,6 +86,7 @@
     "sass-loader": "^4.1.1",
     "scroll-to-element": "^2.0.0",
     "scrollmonitor": "^1.2.3",
+    "semantic-ui": "^2.2.10",
     "snapsvg": "^0.4.0",
     "three": "^0.84.0",
     "url-loader": "^0.5.7",
