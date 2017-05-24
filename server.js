@@ -13,6 +13,7 @@ const	rootDir = __dirname + '/build'
   ,app = express();
 
 const apiInterface = new ApiInterface()
+
 let meta = {}
 
 app.use(express.static(__dirname + '/build'));
@@ -28,11 +29,10 @@ app.get('/portfolio/*', function (req, res) {
 
     meta.OG_DESCRIPTION =  AppStore.state.posts[0].fields.subtitle;
 
-    if(!AppStore.state.posts[0].fields.keyVisual.fields.file.url){
-
-      meta.OG_IMAGE = req.protocol + AppStore.state.posts[0].fields.thumbnail.fields.file.url
+    if(!AppStore.state.posts[0].fields.keyVisual){
+      meta.OG_IMAGE = req.protocol +":"+ AppStore.state.posts[0].fields.thumbnail.fields.file.url
     }else{
-      meta.OG_IMAGE = req.protocol + AppStore.state.posts[0].fields.keyVisual.fields.file.url
+      meta.OG_IMAGE = req.protocol  +":"+ AppStore.state.posts[0].fields.keyVisual.fields.file.url
     }
     meta.CURRENT_URL = req.protocol + '//kidoyoji.xyz/portfolio/' + req.params[0];
 
