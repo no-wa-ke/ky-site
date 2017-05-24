@@ -1,6 +1,6 @@
 import LoaderActionType from './loader.actiontype'
 import RiotControl from 'riotcontrol'
-import Utils from '../../Util/utils'
+import Utils from '../../util/utils'
 
 import './loader.fullscreen.tag'
 import './loader.spill.tag'
