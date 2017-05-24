@@ -9,20 +9,24 @@ import inject from 'gulp-inject';
   console.log(err.toString());
   this.emit('end');
 }
+gulp.task('pug:copy', ()=>{
+  return gulp.src([conf.base.src + conf.files.pug])
+  .pipe(gulp.dest(conf.base.build));
+});
 
-gulp.task('pug:build', ()=>{
+gulp.task('pug:build',['pug:copy'],()=>{
   'use strict';
     let myLocals = {
     'appName': pkg.name
   };
 
-  return gulp.src([conf.base.src + conf.files.pug])
-    .pipe(puglint())
-    .pipe(pug({
-      locals: myLocals,
-      pretty: true
-    }))
-    .on('error', handleError)
-    .pipe(inject(gulp.src(conf.vendor.js, {read: false}), {addRootSlash: false}))
-    .pipe(gulp.dest(conf.base.build));
+  // return gulp.src([conf.base.src + conf.files.pug])
+  //   .pipe(puglint())
+  //   .pipe(pug({
+  //     locals: myLocals,
+  //     pretty: true
+  //   }))
+  //   .on('error', handleError)
+  //   .pipe(inject(gulp.src(conf.vendor.js, {read: false}), {addRootSlash: false}))
+  //   .pipe(gulp.dest(conf.base.build));
 });
