@@ -59,4 +59,3 @@ _SpecRunner.html
 TESTS-*.xml
 
 #ignore generated contents by dependencies
-semantic
