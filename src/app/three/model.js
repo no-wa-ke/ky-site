@@ -106,6 +106,15 @@ export default class MyModel {
         }
         // THREEJSのローダーがクソなのでxhrつかってキャッシュさせてプログレス管理
         const loader = new THREE.JSONLoader();
+        loader.load(
+        this.modelSrc,
+          (geometry, materials) => {
+            this.makeModel(geometry,materials)
+            .then(()=>{
+              self.beginAnimation()
+
+            })
+        });
 
         AltFetch.ajaxload(this.modelSrc,((e)=>{
           // TODO: make dynamic
@@ -114,18 +123,10 @@ export default class MyModel {
             total: this.totalSize
           }
           RiotControl.trigger(ActionTypes.ON_JSON_PROGRESS,stat) // step 1
+
         }))
         .then((e)=>{
-          loader.load(
-          this.modelSrc,
-          (geometry, materials) => {
-            this.makeModel(geometry,materials)
-            .then(()=>{
-              self.beginAnimation()
               promise()
-            })
-        });
-
         })
       }
 
