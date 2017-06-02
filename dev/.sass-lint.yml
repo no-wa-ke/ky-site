@@ -1,0 +1,11 @@
+rules:
+  no-css-comments: 0
+  placeholder-in-extend: 0
+  property-sort-order:
+    - 1
+    -
+      order: concentric
+  class-name-format:
+    - 1
+    -
+      convention: hyphenatedbem

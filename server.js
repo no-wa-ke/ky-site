@@ -2,15 +2,13 @@
 
 
 import express from 'express'
-import fallback from 'express-history-api-fallback'
 import path from 'path'
 import ApiInterface from './server/apiInterface'
 import AppStore from './server/store'
 
-
 const	rootDir = __dirname + '/build'
 	,port 	= 3000
-  ,app = express();
+        ,app = express();
 
 const apiInterface = new ApiInterface()
 
@@ -21,10 +19,10 @@ app.use(express.static(__dirname + '/build'));
 app.set('views', path.join(__dirname, '/build'));
 app.set('view engine', 'pug');
 
-app.get('/portfolio/*', function (req, res) {
+app.get('/portfolio/:query', function (req, res) {
 
-  apiInterface.getPost(req.params[0]).then(()=>{
-
+  apiInterface.getPost(req.params.query).then(()=>{
+    if(AppStore.state.posts){
     meta.OG_TITLE = "Kido Yoji`s Portfolio - " + AppStore.state.posts[0].fields.title;
 
     meta.OG_DESCRIPTION =  AppStore.state.posts[0].fields.subtitle;
@@ -35,10 +33,9 @@ app.get('/portfolio/*', function (req, res) {
       meta.OG_IMAGE = req.protocol  +":"+ AppStore.state.posts[0].fields.keyVisual.fields.file.url
     }
     meta.CURRENT_URL = req.protocol + '//kidoyoji.xyz/portfolio/' + req.params[0];
-
+    }
     res.render('index',{meta:meta})
-
-  })
+    })
 
 })
 
