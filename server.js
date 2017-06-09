@@ -12,7 +12,6 @@ const	rootDir = __dirname + '/build'
 
 const apiInterface = new ApiInterface()
 
-let meta = {}
 
 app.use(express.static(__dirname + '/build'));
 
@@ -20,7 +19,7 @@ app.set('views', path.join(__dirname, '/build'));
 app.set('view engine', 'pug');
 
 app.get('/portfolio/:query', function (req, res) {
-
+  let meta = {}
   apiInterface.getPost(req.params.query).then(()=>{
     if(AppStore.state.posts){
     meta.OG_TITLE = "Kido Yoji`s Portfolio - " + AppStore.state.posts[0].fields.title;
@@ -41,7 +40,8 @@ app.get('/portfolio/:query', function (req, res) {
 
 
 app.get('/*', function (req, res) {
-    res.render('index',{meta:meta})
+  let meta = {}
+  res.render('index',{meta:meta})
 })
 
 
