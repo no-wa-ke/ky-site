@@ -20,13 +20,13 @@ gulp.task('pug:build',['pug:copy'],()=>{
     'appName': pkg.name
   };
 
-  // return gulp.src([conf.base.src + conf.files.pug])
-  //   .pipe(puglint())
-  //   .pipe(pug({
-  //     locals: myLocals,
-  //     pretty: true
-  //   }))
-  //   .on('error', handleError)
-  //   .pipe(inject(gulp.src(conf.vendor.js, {read: false}), {addRootSlash: false}))
-  //   .pipe(gulp.dest(conf.base.build));
+    // return gulp.src([conf.base.src + conf.files.pug])
+    //   .pipe(puglint())
+    //   .pipe(pug({
+    //     locals: myLocals,
+    //     pretty: true
+    //   }))
+    //   .on('error', handleError)
+    //   .pipe(inject(gulp.src(conf.vendor.js, {read: false}), {addRootSlash: false}))
+    //   .pipe(gulp.dest(conf.base.build));
 });
