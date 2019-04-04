@@ -3,7 +3,8 @@ home-contact#profile.ui.vertical.stripe.segment.scroll-watch
 		h1(class = '{active:active}').ui.center.aligned.header.header-spacer Profile
 		div(class = '{active:active}').title
 			h2(class='').name KIDO YOJI
-			h4.bold Music Composer | Design Engineer
+			//- h4.bold Music Composer | Design Enginee
+			h4.bold In Progress...
 			div.ui.divider
 			div.history
 				
@@ -14,31 +15,31 @@ home-contact#profile.ui.vertical.stripe.segment.scroll-watch
 							div.description Waseda University (2009 - 2013)
 							div.description Tokyo University of the Arts (2013 - 2015)
 
-				div.ui.list
-					div.item
-						i.icon.building
-						div.content.middle.aligned
-							div.description Party,inc (2015 - )
-
-				div.ui.list
-					div.item
-						i.icon.trophy
-						div.content.middle.aligned
-							div.description iTunes best albums of the year (2011)
-							div.description CGC Judge's Award (2014)
+				//- div.ui.list
+				//- 	div.item
+				//- 		i.icon.building
+				//- 		div.content.middle.aligned
+				//- 			div.description Party,inc (2015 - )
+				//- 
+				//- div.ui.list
+				//- 	div.item
+				//- 		i.icon.trophy
+				//- 		div.content.middle.aligned
+				//- 			div.description iTunes best albums of the year (2011)
+				//- 			div.description CGC Judge's Award (2014)
 
 			
-			div.margin-v-20
-				button(onclick='{open_profile}').ui.basic.button.transparent.border-straight
-					i.search.icon 
-					| View Full Profile
+			//- div.margin-v-20
+			//- 	button(onclick='{open_profile}').ui.basic.button.transparent.border-straight
+			//- 		i.search.icon 
+			//- 		| View Full Profile
 				
 			div.ui.divider
 		
 		div(class = '{active:active}').sns
-				a(href='https://twitter.com/kido_yoji')
+				a(href='https://twitter.com/_k_i_d_o')
 					i.twitter.icon.large
-				a(href='https://www.instagram.com/explore/tags/kidojamsnippet/')
+				a(href='https://www.instagram.com/kido_yoji')
 					i.instagram.icon.large
 				a(href='https://github.com/no-wa-ke')
 					i.github.icon.large
@@ -133,8 +134,8 @@ home-contact#profile.ui.vertical.stripe.segment.scroll-watch
 		import debounce from 'debounce'
 		this.active = false
 		this.names = {
-			jp:'きどようじ',
-			en:'KIDO YOJI'
+			jp:'Ky',
+			en:'Ky'
 		}
 		this.name = this.names.jp
 		
