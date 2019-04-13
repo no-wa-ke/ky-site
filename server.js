@@ -20,7 +20,7 @@ app.get('/portfolio/:query', function (req, res) {
   let meta = {}
   apiInterface.getPost(req.params.query).then(()=>{
     if(AppStore.state.posts){
-    meta.OG_TITLE = "Kido Yoji`s Portfolio - " + AppStore.state.posts[0].fields.title;
+    meta.OG_TITLE = "KY`s Portfolio - " + AppStore.state.posts[0].fields.title;
 
     meta.OG_DESCRIPTION =  AppStore.state.posts[0].fields.subtitle;
 
@@ -43,8 +43,9 @@ app.get('/*', function (req, res) {
 })
 
 
+// Localhost : Yes
+// aws : No
 // app.use(fallback('index.html', { root: rootDir }))
-app.use(fallback('index.html', { root: rootDir }))
 
 app.listen(port);
 

@@ -2,8 +2,9 @@ home-contact#profile.ui.vertical.stripe.segment.scroll-watch
 	div.ui.container
 		h1(class = '{active:active}').ui.center.aligned.header.header-spacer Profile
 		div(class = '{active:active}').title
-			h2(class='').name KIDO YOJI
-			h4.bold Music Composer | Design Engineer
+			h2(class='').name KY
+			//- h4.bold Music Composer | Design Enginee
+			h4.bold In Progress...
 			div.ui.divider
 			div.history
 				
@@ -14,31 +15,31 @@ home-contact#profile.ui.vertical.stripe.segment.scroll-watch
 							div.description Waseda University (2009 - 2013)
 							div.description Tokyo University of the Arts (2013 - 2015)
 
-				div.ui.list
-					div.item
-						i.icon.building
-						div.content.middle.aligned
-							div.description Party,inc (2015 - )
-
-				div.ui.list
-					div.item
-						i.icon.trophy
-						div.content.middle.aligned
-							div.description iTunes best albums of the year (2011)
-							div.description CGC Judge's Award (2014)
+				//- div.ui.list
+				//- 	div.item
+				//- 		i.icon.building
+				//- 		div.content.middle.aligned
+				//- 			div.description Party,inc (2015 - )
+				//- 
+				//- div.ui.list
+				//- 	div.item
+				//- 		i.icon.trophy
+				//- 		div.content.middle.aligned
+				//- 			div.description iTunes best albums of the year (2011)
+				//- 			div.description CGC Judge's Award (2014)
 
 			
-			div.margin-v-20
-				button(onclick='{open_profile}').ui.basic.button.transparent.border-straight
-					i.search.icon 
-					| View Full Profile
+			//- div.margin-v-20
+			//- 	button(onclick='{open_profile}').ui.basic.button.transparent.border-straight
+			//- 		i.search.icon 
+			//- 		| View Full Profile
 				
 			div.ui.divider
 		
 		div(class = '{active:active}').sns
-				a(href='https://twitter.com/kido_yoji')
+				a(href='https://twitter.com/_k_i_d_o')
 					i.twitter.icon.large
-				a(href='https://www.instagram.com/explore/tags/kidojamsnippet/')
+				a(href='https://www.instagram.com/kido_yoji')
 					i.instagram.icon.large
 				a(href='https://github.com/no-wa-ke')
 					i.github.icon.large
@@ -50,15 +51,15 @@ home-contact#profile.ui.vertical.stripe.segment.scroll-watch
 		div.header  About
 		div.image.content
 			div.ui.medium.image.circular
-				img(src='assets/img/profile.jpg').centered.small.ui.image
+				//- img(src='assets/img/profile.jpg').centered.small.ui.image
 			div.description
 				div.ui.header KIDO YOJI | きどようじ
 				p 1989年生まれ。 早稲田大学卒業後、東京藝術大学大学院映像研究科メディア映像専攻を修了。
-				p 中学-高校時代にアメリカへ留学し、語学を学ぶとともに様々な音楽、表現形態に触れる
-				p 帰国後は作曲家として活動し、2011年にリリースしたミニアルバム「call a romance」はiTunesエレクトロニックミュージックチャート１位にランクイン。
-				p その後、作曲に使用していたソフトウェアの仕組みが気になり始め、大学院へ。映像、コンピューティングの世界に足を踏み入れる。
-				p 既存のメディアをハックし、仕組自体を再構築することにより新しい体験を生み出す手法を得意とし、
-				p web、CG、ハードウェア設計、展示企画まで、幅広くデザインや制作を行っている
+				//- p 中学-高校時代にアメリカへ留学し、語学を学ぶとともに様々な音楽、表現形態に触れる
+				//- p 帰国後は作曲家として活動し、2011年にリリースしたミニアルバム「call a romance」はiTunesエレクトロニックミュージックチャート１位にランクイン。
+				//- p その後、作曲に使用していたソフトウェアの仕組みが気になり始め、大学院へ。映像、コンピューティングの世界に足を踏み入れる。
+				//- p 既存のメディアをハックし、仕組自体を再構築することにより新しい体験を生み出す手法を得意とし、
+				//- p web、CG、ハードウェア設計、展示企画まで、幅広くデザインや制作を行っている
 				
 	style(type='prefix').
 		home-contact{
@@ -133,8 +134,8 @@ home-contact#profile.ui.vertical.stripe.segment.scroll-watch
 		import debounce from 'debounce'
 		this.active = false
 		this.names = {
-			jp:'きどようじ',
-			en:'KIDO YOJI'
+			jp:'Ky',
+			en:'Ky'
 		}
 		this.name = this.names.jp
 		

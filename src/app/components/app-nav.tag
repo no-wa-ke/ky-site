@@ -55,7 +55,7 @@ app-nav
     this.filter_mode = false
     this.navs = [
       {
-        text: 'きどようじ',
+        text: 'ky',
         ref:'home',
         active: false
       },
